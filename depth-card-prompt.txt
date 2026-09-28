@@ -1,0 +1,242 @@
+Depth-Tilt Work Cards — Implementation Prompt
+==============================================
+
+SOURCE: 20260813-1613-55.0089184.mp4 (screen recording, 3-card demo: Mountains /
+Ocean / Forest). Frame-by-frame breakdown below is ground truth for behaviour.
+
+
+==============================================
+WHAT THE REFERENCE ACTUALLY DOES
+==============================================
+
+Three vertical image cards sit in a row on a black background. At rest they are
+flat, static, and show only a title label at the bottom of the image.
+
+On hover/pointer-move over a single card:
+
+1. 3D POINTER-TRACKED TILT — the card itself (not just an inner layer) rotates
+   in 3D perspective, tracking the cursor's position within the card's own
+   bounding box. Cursor near the top-left → the card's top-left corner tilts
+   toward the viewer while the far corner recedes (rotateX/rotateY driven by
+   normalized cursor offset from card center, clamped to a small angle, e.g.
+   6-10deg max). Moving the cursor to a different quadrant of the same card
+   reverses the tilt direction accordingly — this is a continuous mousemove
+   binding, not a discrete hover state. A `perspective` on the parent
+   (or transform: perspective(...) on the card) is required for the rotation
+   to read as depth rather than a flat skew.
+
+2. ELEVATION — the hovered card lifts (subtle translateY / scale ~1.02-1.03)
+   and grows a soft, larger drop shadow beneath it, reinforcing that it has
+   physically detached from the row plane. Un-hovered siblings stay flat and
+   are NOT dimmed or scaled down — only the active card changes.
+
+3. CONTENT REVEAL — a second line of copy (a short description, e.g. "Tall
+   majestic peaks.") fades/slides up into view directly below the title,
+   only while hovered. The bottom scrim/gradient behind the text strengthens
+   slightly on hover so the added text stays legible against the photo.
+
+4. RETURN — on pointer leave, tilt eases back to rotateX:0 / rotateY:0,
+   elevation and shadow relax, and the description line retracts. All of this
+   is spring/eased, not instant.
+
+There is no dimming of unhovered cards, no image parallax counter-shift
+visible in the capture, and no cursor-trail/glare layer — the effect is:
+pointer-tracked 3D tilt + lift/shadow + content reveal. Keep the addition
+scoped to exactly that; don't invent extra chrome.
+
+
+==============================================
+WHERE THIS GOES IN THE CODEBASE
+==============================================
+
+Target: components/work/work-stage.tsx — specifically `WorkCardFrame`
+(the component already rendering the "01 / INTERACTIVE — INTERACTIVE
+PROTOTYPE / Gravity Playground" cards visible on the homepage Work section).
+
+- The tilt effect is a hover/pointer behaviour, so it belongs on the
+  `presentation === "stage"` render path (and should also apply to
+  `presentation === "static"`, i.e. the `prefers-reduced-motion` fallback
+  grid in `StaticWorkGrid` — but see the reduced-motion rule below, tilt
+  itself must be suppressed there; only the existing translateY/border hover
+  should remain in that path).
+- Do not touch `ChoreographedWorkStage`'s GSAP ScrollTrigger scrub logic —
+  the tilt is an independent, purely pointer-driven layer added on top of
+  the card's own transform, not a replacement for the scroll choreography.
+  Because GSAP already writes `y`/`scale`/`filter`/`opacity` onto the
+  `frameRefs`/`mediaRefs` nodes via `gsap.set`, the new tilt transform must
+  be applied to a DIFFERENT node than the ones GSAP controls — e.g. wrap the
+  `GlassCard` itself (or an inner wrapper one level in) with the tilt
+  transform, so GSAP's `opacity`/`blur`/`y` on the outer frame and the
+  tilt's `rotateX`/`rotateY`/`scale` on the card don't fight over the same
+  `transform` property. Framer Motion's `motion.div` with independent
+  `rotateX`/`rotateY`/`scale` motion values composes cleanly with GSAP
+  setting a sibling/ancestor's opacity — just don't let both libraries set
+  `transform` on the same element.
+
+
+==============================================
+BUILD A `useTilt` HOOK — FOLLOW EXISTING CONVENTIONS EXACTLY
+==============================================
+
+New file: hooks/use-tilt.ts. Model it directly on the existing
+`hooks/use-magnetic.ts` (useMotionValue + useSpring, reduced-motion gated,
+pointer-type guarded, ref-based rect measurement) — same file shape, same
+naming style, same defaults-as-module-constants pattern:
+
+```ts
+"use client";
+
+import { useMotionValue, useSpring } from "framer-motion";
+import { useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
+
+import { useReducedMotionPreference } from "@/hooks/use-reduced-motion";
+
+const defaultMaxTilt = 8; // degrees
+const defaultScale = 1.025;
+const springConfig = { damping: 20, stiffness: 220 };
+
+type UseTiltOptions = {
+  maxTilt?: number;
+  scale?: number;
+};
+
+/**
+ * Pointer-tracked 3D tilt for the work cards: rotateX/rotateY driven by
+ * cursor offset from the card's own center, plus a small lift scale.
+ * Pointer-only and reduced-motion-gated, mirroring useMagnetic.
+ */
+export function useTilt<T extends HTMLElement>({
+  maxTilt = defaultMaxTilt,
+  scale = defaultScale,
+}: UseTiltOptions = {}) {
+  const prefersReducedMotion = useReducedMotionPreference();
+  const ref = useRef<T>(null);
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const scaleValue = useMotionValue(1);
+  const springRotateX = useSpring(rotateX, springConfig);
+  const springRotateY = useSpring(rotateY, springConfig);
+  const springScale = useSpring(scaleValue, springConfig);
+
+  function onPointerMove(event: ReactPointerEvent<T>) {
+    if (prefersReducedMotion || event.pointerType !== "mouse" || !ref.current) {
+      return;
+    }
+
+    const bounds = ref.current.getBoundingClientRect();
+    const px = (event.clientX - bounds.left) / bounds.width - 0.5; // -0.5..0.5
+    const py = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+    rotateY.set(px * maxTilt * 2);
+    rotateX.set(py * maxTilt * -2);
+    scaleValue.set(scale);
+  }
+
+  function onPointerLeave() {
+    rotateX.set(0);
+    rotateY.set(0);
+    scaleValue.set(1);
+  }
+
+  return {
+    onPointerLeave,
+    onPointerMove,
+    ref,
+    style: {
+      rotateX: springRotateX,
+      rotateY: springRotateY,
+      scale: springScale,
+      transformPerspective: 800,
+    },
+  };
+}
+```
+
+(Adjust exact numbers to taste, but keep the shape — module-level defaults,
+pointer-type + reduced-motion guard, spring-wrapped motion values, a `style`
+object spread directly onto a `motion.*` element — identical to
+`use-magnetic.ts` and consistent with how `use-pointer-glow.ts` already
+backs `GlassCard`'s specular layer.)
+
+
+==============================================
+WIRING INTO WorkCardFrame
+==============================================
+
+1. Convert the outer `GlassCard` (or add a `motion.div` wrapper one level
+   inside it — see the "different node than GSAP" note above) to a
+   `motion.div` carrying `useTilt`'s `ref`, `style`, `onPointerMove`,
+   `onPointerLeave`. `GlassCard` already exposes `onPointerMove`/
+   `onPointerLeave` pass-through (it composes them with its own specular
+   `usePointerGlow` handlers) — chain the tilt handlers the same way the
+   component already chains `onArrowPointerMove`/`onArrowPointerLeave` for
+   the magnetic arrow, so specular highlight + magnetic arrow + new tilt all
+   coexist without clobbering each other's pointer handlers.
+2. Elevation: while tilted, increase box-shadow to `var(--shadow-3)` (defined
+   in styles/design-tokens.css) instead of the card's resting shadow — a
+   `motion.div` `animate`/CSS class swap keyed off the same hover state, or
+   simplest, put `hover:shadow-[var(--shadow-3)] transition-shadow
+   duration-[var(--duration-slow)] ease-[var(--ease-emphasized)]` on the card
+   className alongside the existing hover classes.
+3. Content reveal: a description line does not currently exist on
+   `WorkCardFrame` — reuse `project.summary` (already rendered) is too long
+   for a short reveal; instead treat the existing "View case study" arrow
+   span (already opacity/translate-gated on `group-hover`) as the reveal
+   layer, OR add a short one-line `project.tagline`-style field if the data
+   model supports a short blurb — check `content/projects.ts` /
+   `types/project.ts` for an existing short field (e.g. `context`, `type`,
+   or `summary` truncated) before adding a new schema field. Keep the reveal
+   using the same `group-hover:` opacity/translate pattern already used for
+   the arrow label at work-stage.tsx:296-302 — don't introduce a second
+   animation system for this.
+4. Respect the existing `group` hover convention: the parent `GlassCard`
+   already has `className="group ..."`, and children key off
+   `group-hover:*`. The new tilt should NOT replace that — the image's
+   existing `group-hover:scale-105` and the arrow badge's `group-hover:*`
+   should keep working unchanged; the tilt is an additive transform on the
+   outer card only.
+
+
+==============================================
+REDUCED MOTION & TOUCH
+==============================================
+
+- `useReducedMotionPreference` already gates `use-magnetic.ts` and
+  `GlassCard`'s specular layer identically — `useTilt` must follow the exact
+  same rule: under `prefers-reduced-motion`, `onPointerMove` no-ops and the
+  card never rotates. `WorkStage` already renders an entirely separate
+  `StaticWorkGrid` under reduced motion (work-stage.tsx:45-47), so in
+  practice `useTilt`'s pointer handlers simply won't be reached there if you
+  choose to only wire the hook into `ChoreographedWorkStage`'s cards — but
+  wire the guard into the hook itself regardless, matching `use-magnetic.ts`
+  defensively, in case `WorkCardFrame` is ever reused in the static path.
+- `event.pointerType !== "mouse"` guard (already in the pattern above) means
+  touch/pen never trigger tilt — no touch-based tilt-on-drag, matching how
+  `useMagnetic` already excludes touch.
+
+
+==============================================
+ACCEPTANCE CRITERIA
+==============================================
+
+[ ] Hovering/moving the pointer within a work card on the homepage Work
+    section produces a smooth 3D rotateX/rotateY tilt that tracks cursor
+    position within that card's bounds, capped at a subtle max angle
+    (~6-8deg), with spring easing on both engage and release.
+[ ] The hovered card visibly lifts (scale ~1.02-1.03) with an upgraded
+    drop shadow; unhovered sibling cards are untouched (no dimming, no
+    scale change).
+[ ] Existing behaviours on the card are unbroken: image `group-hover:
+    scale-105`, arrow badge magnetic nudge + colour invert, "View case
+    study" label reveal, GlassCard specular highlight, and the GSAP
+    ScrollTrigger crossfade/blur choreography in `ChoreographedWorkStage`.
+[ ] Under `prefers-reduced-motion: reduce`, no tilt occurs anywhere (static
+    grid path is already exempt; verify the hook itself also no-ops).
+[ ] Touch/pen input never triggers tilt (pointerType guard verified on a
+    mobile viewport / touch emulation).
+[ ] No new library added — implemented with the already-installed
+    `framer-motion` (`useMotionValue`/`useSpring`), matching
+    `use-magnetic.ts` and `use-pointer-glow.ts` conventions exactly.
+[ ] `hooks/use-tilt.ts` follows the same file structure, JSDoc-comment
+    style, and export shape as `hooks/use-magnetic.ts`.
