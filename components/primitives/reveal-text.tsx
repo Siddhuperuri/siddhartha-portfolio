@@ -32,6 +32,10 @@ export function RevealText({
   const [progress, setProgress] = useState(0);
 
   const words = useMemo(() => children.split(/(\s+)/), [children]);
+  const wordIndices = useMemo(() => {
+    let count = 0;
+    return words.map((token) => (token.trim() ? count++ : -1));
+  }, [words]);
   const wordCount = useMemo(
     () => words.filter((w) => w.trim().length > 0).length,
     [words],
@@ -67,7 +71,6 @@ export function RevealText({
   }, [startAt, endAt]);
 
   const revealedUpTo = Math.floor(progress * wordCount);
-  let wordIdx = 0;
 
   return (
     <Tag
@@ -78,8 +81,7 @@ export function RevealText({
         if (!token.trim()) {
           return <span key={i}>{token}</span>;
         }
-        const active = wordIdx <= revealedUpTo;
-        wordIdx += 1;
+        const active = wordIndices[i] <= revealedUpTo;
         return (
           <span
             className="transition-colors duration-[var(--duration-slow)] ease-[var(--ease-standard)]"
