@@ -49,11 +49,9 @@ function ArrowUpIcon() {
 }
 
 /**
- * Closing spread — the mirror of the hero.
- *
- * The hero opens on a giant condensed wordmark over a lit studio; this closes
- * on the same typographic move inverted (dark type on a warm ground) with the
- * badge as its object, so the page is bookended rather than just stopped.
+ * Closing spread: navigation, the badge and the closing CTA on a warm ground
+ * that hands off from paper to the signal red, so the page is bookended
+ * rather than just stopped.
  */
 export function SiteFooter() {
   const prefersReducedMotion = useReducedMotionPreference();
@@ -72,29 +70,7 @@ export function SiteFooter() {
         }}
       />
 
-      {/* Masthead: full-bleed, escaping the container measure like the hero */}
-      <div className="px-[clamp(0.75rem,2vw,2.5rem)] pt-[var(--space-24)]">
-        <h2 className="flex items-center justify-center gap-[clamp(0.5rem,1.5vw,1.5rem)]">
-          <span
-            aria-hidden
-            className="shrink-0 font-[family-name:var(--font-condensed)] text-[clamp(2.75rem,10vw,9rem)] leading-[0.8] text-[var(--ink-950)]"
-          >
-            ©
-          </span>
-          <span
-            className="select-none font-[family-name:var(--font-condensed)] text-[clamp(2.5rem,9.6vw,9rem)] uppercase leading-[0.82] tracking-[-0.025em] text-transparent"
-            style={{
-              backgroundClip: "text",
-              backgroundImage: "linear-gradient(to bottom, #0a0a0a 0%, #1f1f1f 52%, #7a7a7a 100%)",
-              WebkitBackgroundClip: "text",
-            }}
-          >
-            Design by <span className="italic">Siddhartha</span>
-          </span>
-        </h2>
-      </div>
-
-      <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] gap-y-[var(--space-10)] px-[var(--grid-margin)] pt-[var(--space-12)]">
+      <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] gap-y-[var(--space-10)] px-[var(--grid-margin)] pt-[var(--space-24)]">
         {/* Left — navigation */}
         <nav aria-label="Footer navigation" className="col-span-6 md:col-span-2">
           <ul className="space-y-[var(--space-3)] font-[family-name:var(--font-sans)] text-[clamp(1rem,1.4vw,1.25rem)] text-[var(--ink-950)]">
