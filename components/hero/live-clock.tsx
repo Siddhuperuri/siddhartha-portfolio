@@ -12,9 +12,8 @@ const timeFormatter = new Intl.DateTimeFormat("en-GB", {
 });
 
 /**
- * Bottom-left HUD metadata — mirrors the reference's "DESIGN BY DYLAN / NL /
- * 08:58 CET" block. Real local time in Siddhartha's timezone, ticking every
- * second; not a static string.
+ * Bottom-left HUD metadata: location + real local time in Siddhartha's
+ * timezone, ticking every second; not a static string.
  */
 export function LiveClock() {
   const [time, setTime] = useState<string | null>(null);
@@ -27,15 +26,10 @@ export function LiveClock() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-1 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)]">
-      <span>
-        Design by <span className="text-[var(--paper-100)]">Siddhartha</span>
-      </span>
-      <span className="inline-flex items-center gap-2">
-        <span>IN</span>
-        <span aria-hidden>⊕</span>
-        <span suppressHydrationWarning>{time ?? "--:--"} IST</span>
-      </span>
+    <div className="inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)] uppercase">
+      <span>IN</span>
+      <span aria-hidden>⊕</span>
+      <span suppressHydrationWarning>{time ?? "--:--"} IST</span>
     </div>
   );
 }

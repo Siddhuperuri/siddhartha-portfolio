@@ -7,9 +7,8 @@ import { OutlineButton } from "@/components/primitives/outline-button";
 import { cn } from "@/lib/utils";
 
 /**
- * Reference nav — 3-column strip pinned to the top:
- *   HONEY— / ©YEAR      HELLO@ · NEWSLETTER · LINKEDIN     HIRE US
- * We keep the same silhouette but map to the user's identity + links.
+ * Minimal strip pinned to the top: wordmark + year on the left, a single
+ * contact CTA on the right. Other routes are reached from the page content.
  */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -34,48 +33,20 @@ export function SiteHeader() {
           : "bg-[rgba(10,10,10,0.55)] backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-3 items-center px-[var(--grid-margin)] py-[var(--space-4)]">
+      <div className="mx-auto flex max-w-[var(--container-wide)] items-center justify-between px-[var(--grid-margin)] py-[var(--space-4)]">
         {/* Left — wordmark + year */}
         <Link
           aria-label="Siddhartha — home"
-          className="group flex flex-col leading-none font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-100)]"
+          className="group flex flex-col font-[family-name:var(--font-mono)] text-[11px] leading-none tracking-[var(--tracking-eyebrow)] text-[var(--paper-100)] uppercase"
           href="/"
         >
           <span className="inline-flex items-baseline">
             SIDDHARTHA<span className="ml-0.5 text-[var(--paper-400)]">—</span>
           </span>
-          <span className="mt-1 text-[var(--paper-400)]">©{new Date().getFullYear()}</span>
+          <span className="mt-1 text-[var(--paper-400)]">
+            ©{new Date().getFullYear()}
+          </span>
         </Link>
-
-        {/* Center — quick contact rail */}
-        <nav
-          aria-label="Primary"
-          className="hidden items-center justify-center gap-8 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-100)] md:flex"
-        >
-          <a
-            className="group inline-flex items-center gap-2 transition-opacity hover:opacity-70"
-            href="mailto:siddharthaperuri12@gmail.com"
-          >
-            <span className="inline-block size-2 rounded-full border border-current" />
-            <span>siddharthaperuri12@gmail.com</span>
-          </a>
-          <Link
-            className="group inline-flex items-center gap-2 transition-opacity hover:opacity-70"
-            href="/work"
-          >
-            <span className="inline-block size-2 rounded-full border border-current" />
-            <span>WORK</span>
-          </Link>
-          <a
-            className="group inline-flex items-center gap-2 transition-opacity hover:opacity-70"
-            href="https://www.linkedin.com/in/siddharthaperuri/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span className="inline-block size-2 rounded-full border border-current" />
-            <span>LINKEDIN</span>
-          </a>
-        </nav>
 
         {/* Right — red CTA */}
         <div className="flex items-center justify-end">
