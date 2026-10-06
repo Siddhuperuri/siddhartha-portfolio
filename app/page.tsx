@@ -14,7 +14,7 @@ export default function HomePage() {
     <>
       <SkipLink />
       <main id="main-content">
-        {/* [01/09] Hero — full-viewport dark stage + honey-drop backdrop */}
+        {/* [01/09] Hero — full-viewport WebGPU black hole (static fallback without WebGPU) */}
         <HeroExperience />
         {/* Partners rail */}
         <SkillsMarquee />

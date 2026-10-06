@@ -12,6 +12,19 @@ const nextConfig: NextConfig = {
   // not just the initial page mount. Production never double-invokes, so
   // this only affects dev-mode's extra safety net, not the shipped app.
   reactStrictMode: false,
+
+  // Hero black hole: shaders live in `.wgsl` files and are resolved (imports,
+  // pruning, minification) by vgpu's loader. Turbopack is the default bundler
+  // for both `next dev` and `next build` in Next 16, so only its rule is
+  // needed — a `webpack()` hook here would make Turbopack builds fail.
+  turbopack: {
+    rules: {
+      "*.wgsl": {
+        as: "*.js",
+        loaders: ["@vgpu/wgsl/loader-webpack"],
+      },
+    },
+  },
 };
 
 export default nextConfig;
