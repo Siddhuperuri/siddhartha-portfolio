@@ -6,6 +6,7 @@ import {
   type Gpu,
   type Surface,
   type Target,
+  type TimerSpan,
 } from "vgpu";
 
 import blackHoleWgsl from "./black-hole.wgsl";
@@ -22,12 +23,16 @@ const BLURS = [
   { direction: [1, 0], radius: 2.4 },
   { direction: [0, 1], radius: 2.4 },
 ] as const;
+/** Passes in a frame: scene, bright pass, the blurs, composite. */
+export const PASS_COUNT = BLURS.length + 3;
 
 export function createEffects(gpu: Gpu, targets: Targets) {
   const samp = sampler(gpu, { minFilter: "linear", magFilter: "linear" });
   return {
     scene: effect(gpu, blackHoleWgsl, {
-      set: { params: { resolution: targets.scene.size, pointer: [0, 0.05], time: 0 } },
+      set: {
+        params: { resolution: targets.scene.size, pointer: [0, 0.05], time: 0, farStep: 0 },
+      },
     }),
     bright: effect(gpu, brightPassWgsl, { set: { samp } }),
     blur: BLURS.map((blur, i) =>
@@ -41,16 +46,26 @@ export function createEffects(gpu: Gpu, targets: Targets) {
 
 type Effects = ReturnType<typeof createEffects>;
 
-export function createTargets(gpu: Gpu, size: readonly [number, number]) {
+/**
+ * `size` is the canvas' backing size. The scene (the ray-march, and nearly all
+ * of the GPU cost) renders at `scale` of it per axis and the composite pass
+ * upsamples; bloom is sized from the canvas so the glow keeps its radius
+ * whatever the scene's scale.
+ */
+export function createTargets(gpu: Gpu, size: readonly [number, number], scale = 1) {
   const height = Math.min(360, size[1]);
   const bloom: [number, number] = [
     Math.max(1, Math.round((height * size[0]) / size[1])),
     height,
   ];
+  const sceneSize: [number, number] = [
+    Math.max(1, Math.round(size[0] * scale)),
+    Math.max(1, Math.round(size[1] * scale)),
+  ];
   let scene: Target | undefined;
   let bloomA: Target | undefined;
   try {
-    scene = target(gpu, { size, format: "rgba16float" });
+    scene = target(gpu, { size: sceneSize, format: "rgba16float" });
     bloomA = target(gpu, { size: bloom, format: "rgba16float" });
     return {
       scene,
@@ -100,22 +115,27 @@ export async function prewarm(
   ]);
 }
 
+/** `timers`, when given, holds one GPU timing span per pass, in pass order. */
 export function renderChain(
   frame: Frame,
   effects: Effects,
   targets: Targets,
   output: Output,
+  timers: readonly TimerSpan[] = [],
 ): void {
-  frame.pass({ target: targets.scene, clear: CLEAR }, (pass) =>
+  frame.pass({ target: targets.scene, clear: CLEAR, timer: timers[0] }, (pass) =>
     pass.draw(effects.scene),
   );
-  frame.pass({ target: targets.bloom[0], clear: CLEAR }, (pass) =>
+  frame.pass({ target: targets.bloom[0], clear: CLEAR, timer: timers[1] }, (pass) =>
     pass.draw(effects.bright),
   );
   effects.blur.forEach((blur, i) => {
-    frame.pass({ target: targets.bloom[(i + 1) % 2], clear: CLEAR }, (pass) =>
-      pass.draw(blur),
+    frame.pass(
+      { target: targets.bloom[(i + 1) % 2], clear: CLEAR, timer: timers[i + 2] },
+      (pass) => pass.draw(blur),
     );
   });
-  frame.pass({ target: output, clear: CLEAR }, (pass) => pass.draw(effects.composite));
+  frame.pass({ target: output, clear: CLEAR, timer: timers[PASS_COUNT - 1] }, (pass) =>
+    pass.draw(effects.composite),
+  );
 }

@@ -4,7 +4,14 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 
-import { BadgeCardMesh, BadgeLighting, CLIP_HOLE_Y, useFaceTexture } from "@/components/chrome/badge-face";
+import {
+  BadgeCardMesh,
+  BadgeLighting,
+  CLIP_HOLE_Y,
+  PrecompileShaders,
+  useBadgeRunning,
+  useFaceTexture,
+} from "@/components/chrome/badge-face";
 
 function Badge() {
   const groupRef = useRef<THREE.Group>(null);
@@ -45,11 +52,19 @@ function Badge() {
  * `if` inside the physics file) so reduced-motion visitors never fetch the
  * Rapier chunk at all — see site-footer.tsx.
  */
-export function HangingBadgeStatic() {
+export function HangingBadgeStatic({ onScreen }: { onScreen: boolean }) {
+  const [running, onCompiled] = useBadgeRunning(onScreen);
+
   return (
-    <Canvas camera={{ fov: 34, position: [0, 0.1, 9.6] }} dpr={[1, 1.75]} gl={{ alpha: true, antialias: true }}>
+    <Canvas
+      camera={{ fov: 34, position: [0, 0.1, 9.6] }}
+      dpr={[1, 1.75]}
+      frameloop={running ? "always" : "never"}
+      gl={{ alpha: true, antialias: true }}
+    >
       <BadgeLighting />
       <Badge />
+      <PrecompileShaders onReady={onCompiled} />
     </Canvas>
   );
 }

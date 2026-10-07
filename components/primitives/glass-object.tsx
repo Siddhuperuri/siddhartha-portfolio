@@ -16,6 +16,12 @@ import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
  * Local changes vs. the upstream source: imports hoisted to the top, and the
  * component reports `onError` when WebGL is unavailable instead of failing
  * silently (so callers can fall back to a static rendering).
+ *
+ * Also local, all about not stalling the page while this starts up or resizes:
+ * shader programs are compiled in the background before anything is drawn with
+ * them (three.js otherwise compiles each one synchronously at first use, a
+ * main-thread freeze of a few hundred ms to several seconds depending on the
+ * machine), and resizing is skipped when nothing about the size changed.
  */
 
 const canvasDimensionLimits = new WeakMap<
@@ -841,6 +847,12 @@ export function createGlassObject(
   let ringMaterial: THREE.MeshBasicMaterial | null = null;
   let envTarget: THREE.WebGLRenderTarget | null = null;
   let envDirty = true;
+  let roomShaders: "none" | "compiling" | "ready" = "none";
+  let environmentReady = () => {};
+  /** Resolves once the scene has its first environment map. */
+  const environmentSet = new Promise<void>((resolve) => {
+    environmentReady = resolve;
+  });
 
   function buildRoom() {
     roomScene = new THREE.Scene();
@@ -906,7 +918,32 @@ export function createGlassObject(
     }
   }
 
+  /**
+   * Whether the environment can be rendered without compiling shaders on the
+   * spot. Starts that compilation in the background the first time it is asked.
+   */
+  function environmentCompiled() {
+    if (backdropTexture || roomShaders === "ready") return true;
+    if (roomShaders === "none") {
+      roomShaders = "compiling";
+      if (!roomScene) buildRoom();
+      // PMREM renders the room into a render target, and three.js picks other
+      // shader variants for that than for the canvas. Compile with one bound so
+      // these are the variants it goes on to use.
+      const target = new THREE.WebGLRenderTarget(1, 1);
+      renderer.setRenderTarget(target);
+      const compiled = renderer.compileAsync(roomScene!, camera);
+      renderer.setRenderTarget(null);
+      void compiled.then(() => {
+        target.dispose();
+        roomShaders = "ready";
+      });
+    }
+    return false;
+  }
+
   function refreshEnvironment() {
+    environmentReady();
     if (backdropTexture) {
       const source = backdropTexture.image as CanvasImageSource & {
         width: number;
@@ -1083,6 +1120,16 @@ export function createGlassObject(
         assetSource = { kind: "shapes", shapes };
       }
       buildModel();
+      // Kept out of sight until the environment is in place and the glass shader
+      // (the largest one here) has compiled against it.
+      const built = model as THREE.Object3D | null;
+      if (built) {
+        built.visible = false;
+        await environmentSet;
+        await renderer.compileAsync(scene, camera);
+        if (disposed || token !== loadToken) return;
+        built.visible = true;
+      }
       config.onLoad?.();
     } catch (error) {
       if (disposed || token !== loadToken) return;
@@ -1138,10 +1185,21 @@ export function createGlassObject(
     buildModel();
   }
 
+  let sizedWidth = 0;
+  let sizedHeight = 0;
+  let sizedRatio = 0;
+
   function resize() {
     const width = Math.max(canvas.clientWidth, 1);
     const height = Math.max(canvas.clientHeight, 1);
     const pr = getCanvasPixelRatio(canvas, renderer.getContext());
+    // Setting the size reallocates the drawing buffer and blanks the canvas
+    // even when the size is the same, and resize events also fire for things
+    // that leave it alone (a phone's address bar sliding in and out).
+    if (width === sizedWidth && height === sizedHeight && pr === sizedRatio) return;
+    sizedWidth = width;
+    sizedHeight = height;
+    sizedRatio = pr;
     renderer.setPixelRatio(pr);
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
@@ -1166,7 +1224,7 @@ export function createGlassObject(
     }
     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.1) : 0;
     lastTime = time;
-    if (envDirty) {
+    if (envDirty && environmentCompiled()) {
       envDirty = false;
       refreshEnvironment();
     }

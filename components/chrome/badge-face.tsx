@@ -1,8 +1,57 @@
 "use client";
 
 import { Environment, Lightformer, RoundedBox } from "@react-three/drei";
-import { useEffect, useMemo } from "react";
+import { useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
+
+// Once its shaders are ready the badge draws for this long wherever it is, so
+// the card has come to rest before anyone scrolls down to it.
+const SETTLE_MS = 2500;
+
+/**
+ * When the badge should be drawing: not before its shaders have compiled, then
+ * only while it is on screen, plus a short spell at the start. The rest of the
+ * time its canvas keeps the last frame and costs nothing.
+ *
+ * Returns that, and the callback to hand to `PrecompileShaders`.
+ */
+export function useBadgeRunning(onScreen: boolean) {
+  const [compiled, setCompiled] = useState(false);
+  const [settling, setSettling] = useState(true);
+
+  useEffect(() => {
+    if (!compiled) return;
+    const timeout = window.setTimeout(() => setSettling(false), SETTLE_MS);
+    return () => window.clearTimeout(timeout);
+  }, [compiled]);
+
+  return [compiled && (onScreen || settling), setCompiled] as const;
+}
+
+/**
+ * Compiles the scene's shaders in the background and reports when they are
+ * ready. three.js otherwise compiles each one synchronously the first time it
+ * is drawn, which freezes the page for as long as that takes. Mount it next to
+ * the meshes, so they are in the scene when it runs.
+ */
+export function PrecompileShaders({ onReady }: { onReady: (ready: boolean) => void }) {
+  const gl = useThree((state) => state.gl);
+  const scene = useThree((state) => state.scene);
+  const camera = useThree((state) => state.camera);
+
+  useEffect(() => {
+    let current = true;
+    void gl.compileAsync(scene, camera).then(() => {
+      if (current) onReady(true);
+    });
+    return () => {
+      current = false;
+    };
+  }, [gl, scene, camera, onReady]);
+
+  return null;
+}
 
 /** The printed card itself, sitting inside the holder. */
 export const CARD_W = 1.9;
