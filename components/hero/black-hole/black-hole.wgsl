@@ -2,6 +2,8 @@ struct Params {
   resolution: vec2f,
   pointer: vec2f,
   time: f32,
+  // Longest march step in the far field, or 0 to march exactly as authored.
+  farStep: f32,
 }
 
 @group(0) @binding(0) var<uniform> params: Params;
@@ -10,6 +12,8 @@ const PI: f32 = 3.14159265359;
 const HORIZON: f32 = 1.0;
 const ISCO: f32 = 3.0;
 const DISK_OUTER: f32 = 9.5;
+// Beyond the disc and the shell around it where steps are capped.
+const FAR_FIELD: f32 = 10.5;
 
 fn hash21(p: vec2f) -> f32 {
   var q = fract(p * vec2f(123.34, 456.21));
@@ -64,6 +68,18 @@ fn volumeSample(point: vec3f, rayVelocity: vec3f) -> vec4f {
   let height = abs(point.y);
   if (radius <= ISCO || radius >= DISK_OUTER || height > 0.42) { return vec4f(0.0); }
 
+  let thickness = mix(0.05, 0.24, smoothstep(ISCO, DISK_OUTER, radius));
+  let vertical = exp(-pow(height / thickness, 2.0) * 3.4);
+  let innerFade = smoothstep(ISCO, ISCO + 0.45, radius);
+  let outerFade = 1.0 - smoothstep(DISK_OUTER - 2.4, DISK_OUTER, radius);
+  let radial = (DISK_OUTER - radius) / (DISK_OUTER - ISCO);
+  let radialFalloff = pow(radial, 0.36);
+  // Density before the noise is applied. The noise only scales it down, and the
+  // march discards samples with alpha <= 0.0001, so below that bound the result
+  // is already decided: skip the eight noise octaves, the costly part of a sample.
+  let envelope = vertical * innerFade * outerFade * radialFalloff;
+  if (envelope * 2.1 <= 0.0001) { return vec4f(0.0); }
+
   // Rotated Cartesian turbulence avoids a polar branch-cut seam.
   let omega = 0.42 / pow(radius, 1.5);
   let swirl = 2.2 * log(radius);
@@ -75,14 +91,7 @@ fn volumeSample(point: vec3f, rayVelocity: vec3f) -> vec4f {
   let detail = fbm(rc * 2.6 + broad * 1.5);
   let rings = 0.5 + 0.5 * sin(radius * 8.5 + broad * 6.0);
   let clumps = smoothstep(0.26, 0.84, broad * 0.72 + detail * 0.46 + rings * 0.22);
-
-  let thickness = mix(0.05, 0.24, smoothstep(ISCO, DISK_OUTER, radius));
-  let vertical = exp(-pow(height / thickness, 2.0) * 3.4);
-  let innerFade = smoothstep(ISCO, ISCO + 0.45, radius);
-  let outerFade = 1.0 - smoothstep(DISK_OUTER - 2.4, DISK_OUTER, radius);
-  let radial = (DISK_OUTER - radius) / (DISK_OUTER - ISCO);
-  let radialFalloff = pow(radial, 0.36);
-  let density = vertical * innerFade * outerFade * radialFalloff * clumps;
+  let density = envelope * clumps;
 
   let heat = pow(radial, 1.35);
   var thermal = mix(vec3f(0.55, 0.14, 0.03), vec3f(1.0, 0.55, 0.16), smoothstep(0.05, 0.55, heat));
@@ -130,6 +139,14 @@ fn volumeSample(point: vec3f, rayVelocity: vec3f) -> vec4f {
     // Step finer near the horizon where the geodesic curves hardest.
     var stepSize = clamp((radius - HORIZON) * 0.07, 0.016, 0.24);
 
+    // Reduced detail only (farStep is 0 otherwise, and this is skipped). Out
+    // here there is no disc to sample and the ray is nearly straight, yet at
+    // 0.24 a unit most of a ray's steps are spent crossing it. Longer steps
+    // move the lensed stars by less than a pixel and save over 40% of the frame.
+    if (params.farStep > 0.0 && radius > FAR_FIELD) {
+      stepSize = mix(stepSize, params.farStep, smoothstep(FAR_FIELD, FAR_FIELD + 3.5, radius));
+    }
+
     // Cap steps near the thin disk so rays cannot skip its slab.
     let rxz = length(position.xz);
     if (rxz > ISCO - 0.6 && rxz < DISK_OUTER + 0.6) {
@@ -154,13 +171,17 @@ fn volumeSample(point: vec3f, rayVelocity: vec3f) -> vec4f {
     velocity += acceleration1 * (0.5 * stepSize);
     velocity = normalize(velocity);
 
-    let samplePoint = mix(previousPosition, position, 0.5);
-    let volume = volumeSample(samplePoint, velocity);
-    if (volume.a > 0.0001 && transmittance > 0.008) {
-      let opticalDepth = volume.a * stepSize;
-      let absorbed = 1.0 - exp(-opticalDepth);
-      accumulated += volume.rgb * transmittance * absorbed / max(volume.a, 0.001);
-      transmittance *= exp(-opticalDepth);
+    // Once the ray is effectively opaque nothing more is accumulated, so the
+    // disc is not sampled at all; the march goes on only to find the star behind.
+    if (transmittance > 0.008) {
+      let samplePoint = mix(previousPosition, position, 0.5);
+      let volume = volumeSample(samplePoint, velocity);
+      if (volume.a > 0.0001) {
+        let opticalDepth = volume.a * stepSize;
+        let absorbed = 1.0 - exp(-opticalDepth);
+        accumulated += volume.rgb * transmittance * absorbed / max(volume.a, 0.001);
+        transmittance *= exp(-opticalDepth);
+      }
     }
   }
 

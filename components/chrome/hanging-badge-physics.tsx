@@ -11,8 +11,10 @@ import {
   BadgeCardMesh,
   BadgeLighting,
   CLIP_HOLE_Y,
+  PrecompileShaders,
   SLEEVE_H,
   SLEEVE_W,
+  useBadgeRunning,
   useFaceTexture,
 } from "@/components/chrome/badge-face";
 
@@ -33,7 +35,7 @@ const ROPE_LENGTH = 1.5;
 // through, so the badge pivots where a real one would.
 const CARD_ATTACH: [number, number, number] = [0, CLIP_HOLE_Y, 0];
 
-function Card() {
+function Card({ onCompiled }: { onCompiled: (ready: boolean) => void }) {
   // `useRopeJoint` types its refs as non-nullable (`RefObject<RapierRigidBody>`),
   // but both genuinely start out null before the RigidBody mounts — the hook
   // itself guards for that internally. `null!` satisfies the stricter type
@@ -133,6 +135,7 @@ function Card() {
           <BadgeCardMesh face={face} />
         </group>
       </RigidBody>
+      <PrecompileShaders onReady={onCompiled} />
     </>
   );
 }
@@ -151,12 +154,19 @@ function Card() {
  * Lives in its own module (see hanging-badge-static.tsx) specifically so
  * `prefers-reduced-motion` visitors never fetch Rapier's wasm at all.
  */
-export function HangingBadgePhysics() {
+export function HangingBadgePhysics({ onScreen }: { onScreen: boolean }) {
+  const [running, onCompiled] = useBadgeRunning(onScreen);
+
   return (
-    <Canvas camera={{ fov: 34, position: [0, 0.1, 9.6] }} dpr={[1, 1.75]} gl={{ alpha: true, antialias: true }}>
+    <Canvas
+      camera={{ fov: 34, position: [0, 0.1, 9.6] }}
+      dpr={[1, 1.75]}
+      frameloop={running ? "always" : "never"}
+      gl={{ alpha: true, antialias: true }}
+    >
       <BadgeLighting />
-      <Physics gravity={[0, -2.4, 0]}>
-        <Card />
+      <Physics gravity={[0, -2.4, 0]} paused={!running}>
+        <Card onCompiled={onCompiled} />
       </Physics>
     </Canvas>
   );

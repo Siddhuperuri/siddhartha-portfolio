@@ -2,10 +2,13 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 import { OutlineButton } from "@/components/primitives/outline-button";
 import { contactDetails } from "@/content/contact";
 import { profile } from "@/content/profile";
+import { useIdleAfterLoad } from "@/hooks/use-idle-after-load";
+import { useInView } from "@/hooks/use-in-view";
 import { useReducedMotionPreference } from "@/hooks/use-reduced-motion";
 
 // Two separate dynamic imports, not one component with an internal branch —
@@ -26,6 +29,15 @@ const sitemap = [
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ] as const;
+
+// The badge is a WebGL scene of its own (and a physics simulation), at the very
+// bottom of the page. Setting it up is real work for the main thread, so it
+// waits until the page has loaded and gone idle — or until the footer is this
+// close, whichever is first — rather than competing with the first screen.
+const BADGE_IDLE_DELAY_MS = 0;
+const BADGE_NEAR = "150% 0px";
+// It only draws while the footer is this close to the viewport.
+const BADGE_ON_SCREEN = "25% 0px";
 
 const elsewhere = [
   { href: `mailto:${contactDetails.email}`, label: "Email" },
@@ -56,6 +68,15 @@ function ArrowUpIcon() {
 export function SiteFooter() {
   const prefersReducedMotion = useReducedMotionPreference();
   const year = new Date().getFullYear();
+
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const badgeNear = useInView(badgeRef, BADGE_NEAR);
+  const badgeOnScreen = useInView(badgeRef, BADGE_ON_SCREEN);
+  const pageIdle = useIdleAfterLoad(BADGE_IDLE_DELAY_MS);
+  // Once mounted it stays: tearing a WebGL context down and up again costs more
+  // than keeping an idle one.
+  const [badgeMounted, setBadgeMounted] = useState(false);
+  if (!badgeMounted && (badgeNear || pageIdle)) setBadgeMounted(true);
 
   return (
     <footer className="relative isolate overflow-hidden">
@@ -110,8 +131,14 @@ export function SiteFooter() {
         <div
           aria-hidden
           className="col-span-12 -my-[var(--space-10)] h-[clamp(22rem,42vw,40rem)] md:col-span-4"
+          ref={badgeRef}
         >
-          {prefersReducedMotion ? <HangingBadgeStatic /> : <HangingBadgePhysics />}
+          {badgeMounted &&
+            (prefersReducedMotion ? (
+              <HangingBadgeStatic onScreen={badgeOnScreen} />
+            ) : (
+              <HangingBadgePhysics onScreen={badgeOnScreen} />
+            ))}
         </div>
 
         {/* Right — closing CTA */}
