@@ -350,4 +350,211 @@ export const projects = projectsSchema.parse([
       "Composition choices prioritise clear visual communication over decorative complexity.",
     ],
   },
+  {
+    artefacts: [
+      {
+        detail:
+          "A two-minute calculator that answers how much a roof can generate, what it will save, and how far to trust the number, with an honest range and every assumption shown.",
+        kind: "flow",
+        label: "Solar calculator",
+      },
+      {
+        detail:
+          "An analysis console for hourly irradiance forecasting with time-aware validation, calibrated prediction intervals and results traceable to their data and code.",
+        kind: "flow",
+        label: "Analysis console",
+      },
+      {
+        detail:
+          "The consumer interview is data served by the API, so a farmer and a factory manager are asked different questions by the same engine.",
+        kind: "flow",
+        label: "Persona-driven interview",
+      },
+    ],
+    challenge:
+      "Put one solar-prediction engine behind two audiences, a person deciding whether to install and an analyst who needs to check the work, without overstating certainty.",
+    context: "Full-stack data product",
+    description:
+      "A solar energy intelligence platform: a plain-language calculator for deciding on an installation, and an analysis console for validating the forecasts behind it.",
+    designSystem: [
+      "The consumer surface defaults to a light theme with mobile-first density, because it is read on a phone outdoors.",
+      "The console keeps a dark instrument palette built for dense analysis.",
+      "Every estimate shows a range, a confidence level and its assumptions rather than a single confident number.",
+    ],
+    development: [
+      "Built a Python backend whose physical chain, from solar geometry to PV conversion and inverter losses, is a set of pure functions shared by both surfaces.",
+      "Added a consumer estimate layer covering demand, sizing, battery balance, economics, uncertainty and a shareable report, alongside time-aware validation and conformal prediction intervals.",
+      "Shipped the work with Docker Compose, load testing and security, deployment and recovery documentation.",
+    ],
+    featured: true,
+    iteration: [
+      "Keep what was scientifically load-bearing and compose the new consumer layer on top instead of rewriting it.",
+      "Serve the interview as data so new user types need no new wizard.",
+      "Delete only code that nothing calls, and say so in the delivery report.",
+    ],
+    media: [],
+    research: [
+      "How can a forecast be presented so a non-expert can tell how much to believe it?",
+      "Which questions does each kind of user need to answer before a sizing recommendation is meaningful?",
+      "What makes a prediction checkable by someone who did not build it?",
+    ],
+    results: [
+      "Delivered a calculator and an analysis console over one engine, with consumer and research APIs.",
+      "Kept the original 133 tests passing while adding the consumer layer.",
+      "Documented the method, assumptions and limitations in a delivery report.",
+    ],
+    roles: [
+      { label: "Role", value: "Designer & developer" },
+      { label: "Focus", value: "Data product & uncertainty design" },
+    ],
+    slug: "helios",
+    summary:
+      "A solar calculator and analysis console over one engine, built to show how much its own numbers can be trusted.",
+    title: "Helios",
+    tools: ["Python", "FastAPI", "Docker"],
+    type: "product",
+    wireframes: [
+      "The consumer flow asks a short, persona-specific interview before showing any result.",
+      "Results lead with a range and confidence, with assumptions one step away.",
+      "The console organises analysis into separate views for data quality, models, uncertainty and scenarios.",
+    ],
+  },
+  {
+    artefacts: [
+      {
+        detail:
+          "The name is built from five layers of light at five depths that sum into the word only from exactly one vantage point.",
+        kind: "simulation",
+        label: "Five-layer name",
+      },
+      {
+        detail:
+          "Stillness resolves, motion scatters, attention pulls: the pointer behaves as a mass acting on the scene.",
+        kind: "simulation",
+        label: "One law of interaction",
+      },
+      {
+        detail:
+          "The piece can be pulled out of its browser window, opening a second window onto the same continuous world.",
+        kind: "flow",
+        label: "Beyond the frame",
+      },
+    ],
+    challenge:
+      "Make a piece about a person that is an environment to move through rather than a portfolio page, with no framework, build step or backend.",
+    context: "Interactive artwork",
+    description:
+      "An interactive artwork built around the idea of radiolucence: you never see the person directly, only what passes through them.",
+    designSystem: [
+      "A single rule governs the world: stillness resolves, motion scatters, attention pulls.",
+      "Layers pass through and reveal one another instead of sitting in sections.",
+      "Restraint over spectacle: a small 3D lens appears at only three held moments and the 2D piece stays complete without WebGL.",
+    ],
+    development: [
+      "Built in HTML, CSS and vanilla JavaScript with Three.js vendored locally, and no network requests, font files or image assets.",
+      "Wrote the glyph, layer and camera systems that let five sheets align into the name from a single viewpoint.",
+      "Supported phones and prefers-reduced-motion, and made it run from file:// by using classic scripts instead of modules.",
+    ],
+    featured: false,
+    iteration: [
+      "Make every deeper behaviour discoverable by stopping, with none of them explained.",
+      "Design for three speeds of visit: scroll through, linger, and return repeatedly.",
+      "Keep the 2D piece whole so the 3D is an enhancement, not a dependency.",
+    ],
+    media: [],
+    research: [
+      "How can a piece describe a person without a portrait or a list of skills?",
+      "What does an interface feel like when the user's stillness is the input?",
+      "How much can be left unexplained before it reads as broken?",
+    ],
+    results: [
+      "Delivered a four-part continuous world, from the name to its inside, its edge and its ending.",
+      "Produced a piece that runs offline with no build step.",
+      "Established a signature interaction language for the rest of the work.",
+    ],
+    roles: [
+      { label: "Role", value: "Designer & developer" },
+      { label: "Focus", value: "Interaction & visual systems" },
+    ],
+    slug: "siddhartha",
+    summary:
+      "An interactive artwork about a person, where the name is only visible from exactly one place.",
+    title: "SIDDHARTHA",
+    tools: ["JavaScript", "Three.js", "HTML", "CSS"],
+    type: "interactive",
+    wireframes: [
+      "A single continuous scroll carries the visitor from the name through its inside to the edge.",
+      "Doors and memories reward a visitor who stops and rests the pointer.",
+      "On a phone the interior becomes a panorama you turn and tap.",
+    ],
+  },
+  {
+    artefacts: [
+      {
+        detail:
+          "Uploads move through an asynchronous parse, normalise, chunk, embed and index pipeline backed by a worker queue.",
+        kind: "flow",
+        label: "Document processing pipeline",
+      },
+      {
+        detail:
+          "The architecture is written down in overview, backend, frontend, data-flow, AI-pipeline and security documents, with 24 decision records.",
+        kind: "flow",
+        label: "Architecture documentation",
+      },
+      {
+        detail:
+          "Layering is enforced in CI with import-linter, so a dependency in the wrong direction fails the build.",
+        kind: "flow",
+        label: "Enforced layering",
+      },
+    ],
+    challenge:
+      "Build a knowledge platform whose answers cite the exact source passage, and be exact about which parts exist yet.",
+    context: "Platform in development",
+    description:
+      "A document and knowledge platform where uploaded files are processed into a searchable index, with answers intended to cite the exact source passage. Identity, workspaces, upload and processing are built; retrieval and chat are not.",
+    designSystem: [
+      "A single origin lets both auth tokens be HttpOnly cookies that JavaScript cannot read.",
+      "Dependency direction runs composition, api, application and infrastructure, domain, core, and is checked by machine.",
+      "The repository states plainly what exists and what does not, and does not call itself production-ready.",
+    ],
+    development: [
+      "Built the backend in Python with FastAPI, Celery workers, PostgreSQL with pgvector, Redis and S3-compatible storage.",
+      "Implemented identity, workspaces, document upload and the asynchronous processing pipeline.",
+      "Recorded 24 architecture decisions with the alternatives rejected, and documented failure modes and runbooks for each dependency.",
+    ],
+    featured: false,
+    iteration: [
+      "Write the failure behaviour of each dependency before relying on it.",
+      "Keep the status honest: retrieval and chat are listed as not yet built.",
+      "Fail fast on missing configuration instead of booting with defaults.",
+    ],
+    media: [],
+    research: [
+      "What does a citation have to resolve to for a reader to trust an answer?",
+      "How should a document move through processing so a failure at any step is visible and recoverable?",
+      "Which architectural rules are worth enforcing in CI rather than in review?",
+    ],
+    results: [
+      "Delivered milestones M0 to M4: identity, workspaces, upload and the processing pipeline.",
+      "Produced architecture, security and operations documentation with 24 decision records.",
+      "Retrieval and chat are designed but not yet built.",
+    ],
+    roles: [
+      { label: "Role", value: "Designer & developer" },
+      { label: "Focus", value: "Systems architecture & backend" },
+    ],
+    slug: "orbit",
+    summary:
+      "A document-grounded knowledge platform whose ingestion pipeline runs; retrieval and chat are not built yet.",
+    title: "ORBIT",
+    tools: ["Python", "FastAPI", "PostgreSQL", "Next.js"],
+    type: "ai",
+    wireframes: [
+      "A workspace is the unit of identity and document ownership.",
+      "Each document shows its processing state as it moves through the pipeline.",
+      "Answers are designed so every citation resolves to a source passage.",
+    ],
+  },
 ]);
