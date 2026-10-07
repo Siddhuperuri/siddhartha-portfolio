@@ -42,8 +42,11 @@ export interface Detail {
 }
 
 const FAR_STEP = 0.9;
-/** Measured share of a frame's cost left with the longer far-field steps. */
-const FAR_STEP_COST = 0.6;
+/**
+ * Share of a frame's cost left with the longer far-field steps. Measured at
+ * 0.44 to 0.57 depending on the draw rate (a GPU doing less work clocks down).
+ */
+const FAR_STEP_COST = 0.5;
 const reduced = (scale: number): Detail => ({
   scale,
   farStep: FAR_STEP,
