@@ -14,38 +14,6 @@ export type AuthorityArticle = {
 export const authorityArticles: readonly AuthorityArticle[] = [
   {
     description:
-      "A product-design perspective on making travel planning feel exploratory without losing practical direction.",
-    publishedAt: "2026-08-03",
-    readingTime: "4 min read",
-    sections: [
-      {
-        body: [
-          "Travel planning usually begins with an emotion before it becomes a checklist. A place, a memory, or a possibility gives someone a reason to look. The product challenge is to respect that early curiosity while still giving people a useful next step.",
-          "For Travelease, the central design question was not how to display more destinations. It was how to guide someone from a broad interest toward a meaningful plan without making the first interaction feel like filtering a database.",
-        ],
-        title: "Discovery is a product decision",
-      },
-      {
-        body: [
-          "The state-wise exploration system gives the visitor a concrete starting point. From there, destination details, directions, recommendations, and contextual assistance can arrive as part of the journey rather than as separate utility pages.",
-          "This kind of structure matters because it turns the information architecture into a story: choose a region, understand a place, then decide what to do next.",
-        ],
-        title: "Make the next step visible",
-      },
-      {
-        body: [
-          "The treasure-hunt idea works best when it supports real exploration instead of competing with it. A mechanic should reward attention, but the product remains responsible for helping someone plan, navigate, and discover with confidence.",
-          "The lesson is simple: play can create momentum, but usefulness is what earns trust.",
-        ],
-        title: "Use play to support utility",
-      },
-    ],
-    slug: "designing-play-into-travel-planning",
-    title: "Designing Play Into Useful Travel Planning",
-    topic: "Product thinking",
-  },
-  {
-    description:
       "What an interactive gravity simulation taught me about making complex systems understandable through direct manipulation.",
     publishedAt: "2026-08-03",
     readingTime: "5 min read",
