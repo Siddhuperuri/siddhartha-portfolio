@@ -103,7 +103,7 @@ function initialsFor(item: OrbitStackItem) {
 function Portrait({ item }: { item: OrbitStackItem }) {
   const initials = initialsFor(item);
   const shared =
-    "relative flex aspect-[1.36] w-full overflow-hidden rounded-[1.45rem] border border-black/[0.08] bg-black/[0.045]";
+    "relative flex aspect-[1.36] w-full overflow-hidden rounded-none border border-white/10 bg-white/[0.04]";
 
   if (item.image) {
     return (
@@ -228,8 +228,8 @@ export function OrbitCardStack({
               tabIndex={0}
               aria-current={active ? "true" : undefined}
               className={cn(
-                "absolute left-1/2 top-1/2 w-[min(78vw,21rem)] origin-bottom cursor-pointer rounded-[1.9rem] border border-black/10 bg-[#e9e6df] p-4 text-[#141414] outline-none",
-                "transition-[transform] ease-[cubic-bezier(.2,.8,.2,1)] focus-visible:ring-2 focus-visible:ring-zinc-950/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                "absolute left-1/2 top-1/2 w-[min(78vw,21rem)] origin-bottom cursor-pointer rounded-none border border-white/15 bg-[var(--ink-850)] p-4 text-[var(--paper-100)] outline-none",
+                "transition-[transform] ease-[cubic-bezier(.2,.8,.2,1)] focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--ink-950)]",
                 cardClassName,
               )}
               style={style}
@@ -266,16 +266,16 @@ export function OrbitCardStack({
                 </span>
               </div>
               <div className="px-2 pb-2 pt-6">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--paper-400)]">
                   {item.role}
                 </p>
-                <h3 className="mt-2 text-[2rem] font-semibold leading-none tracking-[-0.04em] text-zinc-950">
+                <h3 className="mt-2 text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[var(--paper-100)]">
                   {item.name}
                 </h3>
-                <p className="mt-4 max-w-[17rem] text-[0.98rem] font-medium leading-[1.42] tracking-[-0.01em] text-zinc-700">
+                <p className="mt-4 max-w-[17rem] text-[0.98rem] font-medium leading-[1.42] tracking-[-0.01em] text-[var(--paper-200)]">
                   {item.description}
                 </p>
-                <div className="mt-5 border-t border-black/10 pt-4 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-zinc-500">
+                <div className="mt-5 border-t border-white/15 pt-4 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--paper-400)]">
                   {item.stat ?? "Profile"}
                 </div>
               </div>

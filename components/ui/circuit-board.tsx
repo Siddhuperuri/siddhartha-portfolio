@@ -145,9 +145,9 @@ function CircuitBoard({
     if (isDark) {
       switch (status) {
         case "active":
-          return "rgba(163, 163, 163, 0.7)"
+          return "rgba(245, 245, 245, 0.9)"
         case "processing":
-          return "rgba(163, 163, 163, 0.5)"
+          return "rgba(255, 61, 46, 0.9)"
         case "error":
           return "rgba(120, 113, 108, 0.6)"
         default:

@@ -78,7 +78,7 @@ const LENS = {
   rimInward: 0,
   rimFreq1: 2,
   rimFreq2: 1,
-  blueColor: "#009dff",
+  blueColor: "#ff3d2e",
   rimLine: 1.4,
   rimLinePos: 0.488,
   rimLineWidth: 0.003,
@@ -1480,10 +1480,10 @@ export function LiquidGlassCarousel({
   return (
     <div
       className={cn(
-        "relative h-full min-h-[420px] w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-black/20",
+        "relative h-full min-h-[420px] w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-white/30",
         className,
       )}
-      style={{ background, color: "#111111", ...style }}
+      style={{ background, color: "#f5f5f5", ...style }}
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"

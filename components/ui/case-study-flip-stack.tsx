@@ -152,7 +152,7 @@ function FlipCard({
       }}
     >
       <motion.div
-        className="grid h-full overflow-hidden rounded-[clamp(18px,2vw,30px)] shadow-[0_16px_50px_rgba(20,17,10,0.18)] sm:grid-cols-[1.15fr_0.85fr]"
+        className="grid h-full overflow-hidden rounded-none shadow-[0_16px_50px_rgba(20,17,10,0.18)] sm:grid-cols-[1.15fr_0.85fr]"
         style={{
           backgroundColor: item.background,
           color: item.foreground ?? "white",
@@ -172,16 +172,16 @@ function FlipCard({
             <p className="mb-[clamp(10px,1.5vw,22px)] text-[10px] font-semibold uppercase tracking-[0.16em] opacity-70 sm:text-xs">
               {item.eyebrow}
             </p>
-            <h2 className="max-w-[16ch] text-balance text-[clamp(28px,3.25vw,48px)] font-semibold leading-[0.96] tracking-[-0.05em]">
+            <h3 className="max-w-[16ch] text-balance text-[clamp(28px,3.25vw,48px)] font-semibold leading-[0.96] tracking-[-0.05em]">
               {item.title}
-            </h2>
+            </h3>
             <p className="mt-[clamp(16px,1.8vw,24px)] max-w-[42rem] text-[clamp(13px,1.1vw,16px)] leading-[1.5] opacity-82">
               {item.description}
             </p>
           </div>
         </div>
 
-        <div className="relative m-[clamp(10px,1.2vw,18px)] min-h-[180px] overflow-hidden rounded-[clamp(12px,1.4vw,22px)] sm:ml-0">
+        <div className="relative m-[clamp(10px,1.2vw,18px)] min-h-[180px] overflow-hidden rounded-none sm:ml-0">
           <img
             src={item.image}
             alt={item.imageAlt}
@@ -219,8 +219,8 @@ export function CaseStudyFlipStack({
   const cardProgress = reduceMotion ? scrollYProgress : smoothProgress;
 
   return (
-    <main
-      className={cn("relative bg-[#eeeae2] font-sans text-[#29251f]", className)}
+    <div
+      className={cn("relative bg-[var(--ink-950)] font-sans text-[var(--paper-100)]", className)}
     >
       <section className="relative h-[82vh] min-h-[640px] overflow-hidden px-5 sm:px-10">
         <div className="absolute inset-x-0 top-[clamp(110px,16vh,165px)] flex items-center justify-center gap-[clamp(14px,2.5vw,32px)] text-[clamp(26px,3.5vw,52px)] font-medium tracking-[-0.055em]">
@@ -247,9 +247,9 @@ export function CaseStudyFlipStack({
         </div>
 
         <div className="absolute inset-x-5 top-[clamp(330px,43vh,440px)] flex justify-center sm:inset-x-10">
-          <h1 className="max-w-[18ch] text-center text-[clamp(42px,5.5vw,82px)] font-semibold leading-[0.92] tracking-[-0.06em] text-[#a94808]">
+          <h2 className="max-w-[18ch] text-center text-[clamp(42px,5.5vw,82px)] font-semibold leading-[0.92] tracking-[-0.06em] text-[var(--red-500)]">
             {heading}
-          </h1>
+          </h2>
         </div>
       </section>
 
@@ -278,10 +278,10 @@ export function CaseStudyFlipStack({
       </div>
 
       <section className="flex min-h-[120vh] items-center justify-center px-5 sm:px-10">
-        <p className="text-center text-[clamp(54px,9vw,144px)] font-semibold leading-none tracking-[-0.07em] text-[#29251f]">
+        <p className="text-center text-[clamp(54px,9vw,144px)] font-semibold leading-none tracking-[-0.07em] text-[var(--paper-100)]">
           {endLabel}
         </p>
       </section>
-    </main>
+    </div>
   );
 }

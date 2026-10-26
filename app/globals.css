@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "../styles/design-tokens.css";
 
+/* The site is dark-only: make every dark: utility (used by the vendored
+   components) always apply, and mark the root with .dark for JS theme checks. */
+@custom-variant dark (&);
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -86,4 +90,27 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* Maps the shadcn-style semantic colour names the Componentry components use
+   onto the portfolio palette (ink, paper, one red accent). */
+@theme inline {
+  --color-background: var(--ink-950);
+  --color-foreground: var(--paper-100);
+  --color-card: var(--ink-850);
+  --color-card-foreground: var(--paper-100);
+  --color-popover: var(--ink-850);
+  --color-popover-foreground: var(--paper-100);
+  --color-primary: var(--red-500);
+  --color-primary-foreground: var(--ink-950);
+  --color-secondary: var(--ink-800);
+  --color-secondary-foreground: var(--paper-100);
+  --color-muted: var(--ink-800);
+  --color-muted-foreground: var(--paper-300);
+  --color-accent: var(--red-500);
+  --color-accent-foreground: var(--ink-950);
+  --color-destructive: var(--red-600);
+  --color-border: var(--rule-default);
+  --color-input: var(--rule-default);
+  --color-ring: var(--red-500);
 }

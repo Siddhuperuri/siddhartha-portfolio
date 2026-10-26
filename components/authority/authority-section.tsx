@@ -1,8 +1,8 @@
 import { ArrowUpRight, Github } from "lucide-react";
-import Link from "next/link";
+
+import { InsightsMasthead } from "@/components/authority/insights-masthead";
 
 import {
-  authorityArticles,
   authoritySignals,
   resources,
   transparencyNotes,
@@ -11,73 +11,7 @@ import {
 export function AuthoritySection() {
   return (
     <>
-      {/* SECTION VIII — Notes (essays / insights index) */}
-      <section
-        aria-labelledby="notes-heading"
-        className="relative border-t border-[var(--rule-hairline)] py-[var(--space-section)]"
-        id="insights"
-      >
-        <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)]">
-          <div className="grid grid-cols-12 gap-x-[var(--grid-gutter)]">
-            <div className="col-span-12 lg:col-span-4">
-              <p className="font-[family-name:var(--font-mono)] text-[var(--text-2xs)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--text-quaternary)]">
-                <span className="text-[var(--accent)]">§ VIII</span> &nbsp;— Notes
-              </p>
-              <h2
-                className="mt-[var(--space-5)] max-w-[14ch] font-[family-name:var(--font-display)] text-[length:var(--text-4xl)] font-normal leading-[var(--leading-heading)] tracking-[var(--tracking-heading)] text-[var(--text-primary)] md:text-[length:var(--text-5xl)]"
-                id="notes-heading"
-              >
-                Written{" "}
-                <span className="italic text-[var(--accent)]">from the work.</span>
-              </h2>
-              <p className="mt-[var(--space-6)] max-w-[22rem] text-[length:var(--text-base)] leading-[var(--leading-body)] text-[var(--text-tertiary)]">
-                Short essays gathered while making the projects — the
-                thinking, not the marketing.
-              </p>
-              <Link
-                className="mt-[var(--space-8)] inline-flex items-baseline gap-[var(--space-3)] font-[family-name:var(--font-display)] text-[length:var(--text-xl)] text-[var(--text-primary)] transition-colors hover:text-[var(--accent)]"
-                href="/insights"
-              >
-                <span className="relative">
-                  Read all notes
-                  <span className="absolute -bottom-0.5 left-0 h-px w-full bg-[var(--accent)]" />
-                </span>
-                <ArrowUpRight aria-hidden className="size-[var(--icon-sm)]" />
-              </Link>
-            </div>
-            <ol className="col-span-12 mt-[var(--space-10)] lg:col-span-8 lg:mt-0">
-              {authorityArticles.map((article, i) => (
-                <li
-                  className="group border-t border-[var(--rule-default)] py-[var(--space-8)] last:border-b"
-                  key={article.slug}
-                >
-                  <Link className="block" href={`/insights/${article.slug}`}>
-                    <div className="grid grid-cols-12 items-baseline gap-x-[var(--grid-gutter)]">
-                      <span className="col-span-2 font-[family-name:var(--font-mono)] text-[var(--text-2xs)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--text-quaternary)] md:col-span-1">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div className="col-span-10 md:col-span-11">
-                        <p className="font-[family-name:var(--font-mono)] text-[var(--text-2xs)] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--text-tertiary)]">
-                          {article.topic}
-                          <span aria-hidden className="mx-[var(--space-2)] text-[var(--text-quaternary)]">·</span>
-                          {article.readingTime}
-                        </p>
-                        <h3 className="mt-[var(--space-3)] max-w-[24ch] font-[family-name:var(--font-display)] text-[length:var(--text-2xl)] font-normal leading-[var(--leading-heading)] tracking-[var(--tracking-heading)] text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)] md:text-[length:var(--text-3xl)]">
-                          {article.title}
-                        </h3>
-                        <p className="mt-[var(--space-4)] max-w-[42rem] leading-[var(--leading-body)] text-[var(--text-secondary)]">
-                          {article.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-
+      <InsightsMasthead />
       {/* Research & resources — bibliographic references */}
       <section
         aria-label="Research references"

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { Anton, Geist, Geist_Mono } from "next/font/google";
 
 import { SiteFooter } from "@/components/chrome/site-footer";
+import { SiteDock } from "@/components/chrome/site-dock";
 import { SiteHeader } from "@/components/chrome/site-header";
 import { AppProviders } from "@/components/providers/app-providers";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -61,7 +62,7 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable}`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} ${anton.variable}`}
       lang="en"
       // Browser extensions (Dark Reader, Grammarly, etc.) inject attributes on
       // <html> before hydration. Scoped to this element's own attributes.
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <SiteHeader />
           {children}
           <SiteFooter />
+          <SiteDock />
         </AppProviders>
       </body>
     </html>
