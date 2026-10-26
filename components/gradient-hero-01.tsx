@@ -1,58 +1,81 @@
-export function GradientHero01() {
+type GradientHero01Props = {
+  description?: string;
+  eyebrow?: string;
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+  title?: string;
+};
+
+/**
+ * Componentry "gradient hero" block, re-coloured to the portfolio palette (ink
+ * ground, one red glow) and driven by props instead of its demo copy.
+ */
+export function GradientHero01({
+  description = "A place for the experiments that did not belong on a case study.",
+  eyebrow = "Playground",
+  primary = { href: "/work", label: "See the work" },
+  secondary = { href: "/contact", label: "Get in touch" },
+  title = "Small experiments, built to be played with",
+}: GradientHero01Props) {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background font-[system-ui,-apple-system,BlinkMacSystemFont,'Segoe_UI',sans-serif] text-foreground">
+    <section className="relative min-h-[80svh] overflow-hidden bg-[var(--ink-950)] text-[var(--paper-100)]">
       <div
         className="absolute inset-x-[-18%] bottom-[-34%] h-[78%] rounded-[100%] blur-3xl"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.58) 0%, rgba(59, 130, 246, 0.34) 34%, rgba(99, 102, 241, 0.2) 58%, transparent 78%)",
+            "radial-gradient(ellipse at center, rgba(255, 61, 46, 0.55) 0%, rgba(217, 44, 34, 0.32) 34%, rgba(179, 36, 26, 0.18) 58%, transparent 78%)",
         }}
       />
       <div
         className="absolute inset-x-0 bottom-0 h-[68%]"
         style={{
           background:
-            "linear-gradient(to top, rgba(37, 99, 235, 0.42), rgba(14, 165, 233, 0.2) 42%, transparent 78%)",
+            "linear-gradient(to top, rgba(179, 36, 26, 0.4), rgba(255, 61, 46, 0.14) 42%, transparent 78%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 50% 55%, color-mix(in oklab, var(--background) 18%, transparent) 0%, transparent 34%, color-mix(in oklab, var(--background) 90%, transparent) 78%)",
+            "radial-gradient(circle at 50% 55%, color-mix(in oklab, var(--ink-950) 18%, transparent) 0%, transparent 34%, color-mix(in oklab, var(--ink-950) 90%, transparent) 78%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to bottom, var(--background) 0%, color-mix(in oklab, var(--background) 68%, transparent) 38%, color-mix(in oklab, var(--background) 12%, transparent) 100%)",
+            "linear-gradient(to bottom, var(--ink-950) 0%, color-mix(in oklab, var(--ink-950) 68%, transparent) 38%, color-mix(in oklab, var(--ink-950) 12%, transparent) 100%)",
         }}
       />
 
-      <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
-        <div className="rounded-full border border-border bg-background/50 px-4 py-1.5 text-sm font-medium text-muted-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-md">
-          Previewing Componentry Blocks
+      <div className="relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
+        <div className="border border-[var(--rule-default)] bg-[rgba(10,10,10,0.5)] px-4 py-1.5 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)] uppercase backdrop-blur-md">
+          {eyebrow}
         </div>
 
-        <h1 className="mt-8 max-w-5xl text-balance text-5xl font-medium leading-[0.96] tracking-normal md:text-6xl lg:text-7xl">
-          Launch pages that feel finished from the first pass
+        <h1 className="mt-8 max-w-5xl font-[family-name:var(--font-display)] text-5xl leading-[0.96] font-normal tracking-[var(--tracking-display)] text-balance md:text-6xl lg:text-7xl">
+          {title}
         </h1>
 
-        <p className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted-foreground md:text-lg">
-          Simple sections with considered spacing, quiet motion, and production
-          ready code you can paste into real product work.
+        <p className="mt-6 max-w-2xl font-[family-name:var(--font-sans)] text-base leading-7 text-pretty text-[var(--paper-200)] md:text-lg">
+          {description}
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
-          <a className="inline-flex h-11 w-36 items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_18px_60px_rgba(0,0,0,0.12)] transition hover:opacity-90">
-            Explore Blocks
+          <a
+            className="inline-flex h-11 items-center justify-center border border-[var(--red-500)] bg-[var(--red-500)] px-6 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--ink-950)] uppercase transition-colors hover:border-[var(--red-400)] hover:bg-[var(--red-400)]"
+            href={primary.href}
+          >
+            {primary.label}
           </a>
-          <a className="inline-flex h-11 w-36 items-center justify-center rounded-lg border border-border bg-background/45 px-5 text-sm font-semibold text-foreground/80 shadow-[0_1px_0_rgba(255,255,255,0.12)_inset] backdrop-blur transition hover:bg-foreground/5 hover:text-foreground">
-            View Source
+          <a
+            className="inline-flex h-11 items-center justify-center border border-[var(--paper-100)] px-6 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-100)] uppercase transition-colors hover:bg-[var(--paper-100)] hover:text-[var(--ink-950)]"
+            href={secondary.href}
+          >
+            {secondary.label}
           </a>
         </div>
       </div>
     </section>
-  )
+  );
 }

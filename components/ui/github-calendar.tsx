@@ -11,19 +11,21 @@ interface ContributionDay {
     date: string
 }
 
-interface GithubContributionData {
+export interface GithubContributionData {
     contributions: ContributionDay[][]
     totalContributions: number
 }
 
 interface GithubCalendarProps {
     username: string
+    /** Pre-fetched data. When given, nothing is requested from a third party. */
+    data?: GithubContributionData
     variant?: "default" | "city-lights" | "minimal"
     shape?: "square" | "rounded" | "circle" | "squircle"
     glowIntensity?: number
     className?: string
     showTotal?: boolean
-    colorSchema?: "green" | "blue" | "purple" | "orange" | "gray"
+    colorSchema?: "green" | "blue" | "purple" | "orange" | "gray" | "red"
 }
 
 // Color schemas for custom styling
@@ -55,6 +57,13 @@ const colorSchemas = {
         level2: "bg-purple-300 dark:bg-purple-700",
         level3: "bg-purple-400 dark:bg-purple-500",
         level4: "bg-purple-500 dark:bg-purple-400",
+    },
+    red: {
+        level0: "bg-[#141414]",
+        level1: "bg-[#4a1511]",
+        level2: "bg-[#7a1810]",
+        level3: "bg-[#b3241a]",
+        level4: "bg-[#ff3d2e]",
     },
     orange: {
         level0: "bg-zinc-100 dark:bg-zinc-900",
@@ -98,6 +107,7 @@ function getShapeClass(shape: string) {
 
 export function GithubCalendar({
     username,
+    data: providedData,
     variant = "default",
     shape = "rounded",
     glowIntensity = 5,
@@ -105,8 +115,8 @@ export function GithubCalendar({
     showTotal = true,
     colorSchema = "green",
 }: GithubCalendarProps) {
-    const [data, setData] = React.useState<GithubContributionData | null>(null)
-    const [loading, setLoading] = React.useState(true)
+    const [data, setData] = React.useState<GithubContributionData | null>(providedData ?? null)
+    const [loading, setLoading] = React.useState(!providedData)
     const [error, setError] = React.useState<string | null>(null)
     const [hoveredDate, setHoveredDate] = React.useState<string | null>(null)
     const [hoveredCount, setHoveredCount] = React.useState<number | null>(null)
@@ -131,14 +141,14 @@ export function GithubCalendar({
             }
         }
 
-        if (username) {
+        if (username && !providedData) {
             fetchData()
         }
-    }, [username])
+    }, [username, providedData])
 
     if (error) {
         return (
-            <div className={cn("p-4 rounded-lg border border-red-200 bg-red-50 text-red-500 text-sm", className)}>
+            <div className={cn("p-4 border border-[var(--rule-default)] bg-[var(--ink-900)] text-[var(--paper-300)] text-sm", className)}>
                 Error: {error}
             </div>
         )

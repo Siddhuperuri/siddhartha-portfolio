@@ -1,3 +1,5 @@
+import { projects } from "@/content/projects";
+
 export type AuthorityArticle = {
   description: string;
   publishedAt: string;
@@ -100,7 +102,7 @@ export const resources = [
 ] as const;
 
 export const authoritySignals = [
-  { label: "Documented project narratives", value: "05" },
+  { label: "Documented project narratives", value: String(projects.length).padStart(2, "0") },
   { label: "Design + build disciplines", value: "03" },
   { label: "Years of degree study", value: "04" },
 ] as const;

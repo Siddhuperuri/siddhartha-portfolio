@@ -1,41 +1,63 @@
 import { SectionRegister } from "@/components/primitives/section-register";
-import { ProjectStack } from "@/components/work/project-stack";
+import {
+  CaseStudyFlipStack,
+  type CaseStudyFlipItem,
+} from "@/components/ui/case-study-flip-stack";
+import { WorkIndex } from "@/components/work/work-stage";
+import { coverAlt, coverSrc } from "@/lib/covers";
 import { getFeaturedProjects } from "@/lib/projects";
 
+// Alternating card grounds, all drawn from the portfolio palette.
+const grounds = [
+  { background: "#1a1a1a", foreground: "#f5f5f5" },
+  { background: "#ff3d2e", foreground: "#0a0a0a" },
+  { background: "#f5f5f5", foreground: "#0a0a0a" },
+  { background: "#262626", foreground: "#f5f5f5" },
+] as const;
+
 /**
- * Reference [ 05 / 09 ] CLIENTS — massive statement headline, short intro,
- * then an index of client work. The typography carries all the weight;
- * no cards, no thumbnails on the home stage.
+ * [ 04 / 09 ] SELECTED WORK — the case studies flip past as you scroll, one
+ * card per project. The linked index underneath is the keyboard-friendly route
+ * into each case study.
  */
 export function WorkShowcase() {
   const projects = getFeaturedProjects();
 
+  const items: CaseStudyFlipItem[] = projects.map((project, index) => {
+    const ground = grounds[index % grounds.length];
+    return {
+      background: ground.background,
+      description: project.summary,
+      eyebrow: project.context,
+      foreground: ground.foreground,
+      image: coverSrc(project.slug),
+      imageAlt: coverAlt(project),
+      number: String(index + 1).padStart(2, "0"),
+      title: project.title,
+    };
+  });
+
   return (
     <section
       aria-labelledby="work-heading"
-      className="relative border-t border-[var(--rule-hairline)] pb-[var(--space-section)]"
+      className="relative border-t border-[var(--rule-hairline)]"
       id="work"
     >
-      <SectionRegister index={5} label="SELECTED WORK" />
+      <SectionRegister index={4} label="SELECTED WORK" />
 
-      <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)] pt-[calc(var(--space-section)*0.75)]">
-        <div className="grid grid-cols-12 gap-x-[var(--grid-gutter)]">
-          <h2
-            className="col-span-12 max-w-[16ch] font-[family-name:var(--font-display)] text-[length:var(--text-5xl)] font-normal leading-[0.95] tracking-[var(--tracking-display)] text-[var(--paper-100)] md:col-span-8 md:text-[length:var(--text-6xl)]"
-            id="work-heading"
-          >
-            Goliath, meet David.
-            <br />
-            <span className="text-[var(--paper-400)]">David, meet Goliath.</span>
-          </h2>
-          <p className="col-span-12 mt-[var(--space-8)] max-w-[42ch] font-[family-name:var(--font-sans)] text-[16px] leading-[1.6] text-[var(--paper-200)] md:col-span-4 md:mt-[var(--space-12)]">
-            Selected projects. Each one earns its place by turning a real question into a working artefact you can click on — interface, identity, or interactive prototype.
-          </p>
-        </div>
+      <h2 className="sr-only" id="work-heading">
+        Selected work
+      </h2>
 
-        <div className="mt-[var(--space-20)]">
-          <ProjectStack projects={projects} />
-        </div>
+      <CaseStudyFlipStack
+        endLabel="Now the index"
+        heading={`${projects.length} projects. Each one a working artefact.`}
+        hint="Scroll"
+        items={items}
+      />
+
+      <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)] pb-[var(--space-section)]">
+        <WorkIndex projects={projects} />
       </div>
     </section>
   );

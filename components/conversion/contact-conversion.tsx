@@ -1,3 +1,5 @@
+import { InViewMount } from "@/components/primitives/in-view-mount";
+import { ClosingPlasma } from "@/components/ui/closing-plasma";
 import { SectionRegister } from "@/components/primitives/section-register";
 
 const faqs = [
@@ -74,22 +76,34 @@ export function ContactConversion() {
         </div>
       </section>
 
-      {/* Closing banner — huge type, split black/white, arrow trio */}
+      {/* Closing banner — a red plasma field behind the call to action */}
       <a
         aria-label="Send a message"
-        className="group grid grid-cols-3 items-stretch overflow-hidden border-t border-b border-[var(--paper-100)] bg-[var(--ink-950)] transition-colors hover:bg-[var(--red-500)]"
+        className="group relative block overflow-hidden border-y border-[var(--paper-100)] bg-[var(--ink-950)]"
         href="mailto:siddharthaperuri12@gmail.com?subject=Portfolio%20enquiry"
       >
-        <div className="col-span-2 flex items-center bg-[var(--ink-950)] px-[var(--grid-margin)] py-[var(--space-12)] transition-colors group-hover:bg-[var(--red-500)]">
-          <span className="font-[family-name:var(--font-display)] text-[clamp(3rem,10vw,9rem)] font-normal leading-[0.9] tracking-[var(--tracking-display)] text-[var(--paper-100)] transition-colors group-hover:text-[var(--ink-950)]">
-            Where do I sign?
+        <InViewMount
+          className="absolute inset-0"
+          fallback={<div aria-hidden className="h-full w-full bg-[var(--ink-950)]" />}
+          staticOk
+        >
+          <ClosingPlasma
+            className="h-full w-full"
+            darkColorA="#0a0a0a"
+            darkColorB="#b3241a"
+            darkColorC="#ff3d2e"
+            grain={0.6}
+            mouseInfluence={1.2}
+            sparkle={0.4}
+            vignette={1.2}
+          />
+        </InViewMount>
+        <div className="relative flex min-h-[70svh] items-center justify-between gap-8 px-[var(--grid-margin)] py-[var(--space-16)]">
+          <span className="font-[family-name:var(--font-display)] text-[clamp(3rem,11vw,10rem)] font-normal leading-[0.9] tracking-[var(--tracking-display)] text-[var(--paper-100)]">
+            Where do
+            <br />I sign?
           </span>
-        </div>
-        <div className="col-span-1 flex items-center justify-center gap-4 border-l border-[var(--paper-100)] bg-[var(--paper-100)] px-[var(--grid-margin)] py-[var(--space-12)]">
-          <span className="font-[family-name:var(--font-display)] text-[clamp(3rem,10vw,9rem)] font-normal leading-[0.9] tracking-[var(--tracking-display)] text-[var(--ink-950)]">
-            Here
-          </span>
-          <span aria-hidden className="flex gap-1 text-[var(--ink-950)]">
+          <span aria-hidden className="flex gap-1 text-[var(--paper-100)]">
             <ArrowLg />
             <ArrowLg className="hidden md:block" />
             <ArrowLg className="hidden lg:block" />

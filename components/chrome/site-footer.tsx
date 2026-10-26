@@ -27,6 +27,7 @@ const sitemap = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
   { href: "/insights", label: "Insights" },
+  { href: "/lab", label: "Lab" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
