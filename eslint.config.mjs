@@ -5,5 +5,11 @@ import nextTypescript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
-  globalIgnores([".next/**", "node_modules/**"]),
+  // Vendored Componentry registry code is not linted.
+  globalIgnores([
+    ".next/**",
+    "node_modules/**",
+    "components/ui/**",
+    "components/gradient-hero-01.tsx",
+  ]),
 ]);

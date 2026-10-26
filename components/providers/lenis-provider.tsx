@@ -24,7 +24,14 @@ export function LenisProvider() {
       return;
     }
 
-    const lenis = new Lenis({ autoRaf: false, smoothWheel: true });
+    const lenis = new Lenis({
+      anchors: true,
+      autoRaf: false,
+      duration: 1.35,
+      easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.95,
+    });
 
     lenis.on("scroll", ScrollTrigger.update);
 
