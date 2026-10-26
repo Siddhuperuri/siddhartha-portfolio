@@ -386,7 +386,7 @@ export const projects = projectsSchema.parse([
       "Wrote the glyph, layer and camera systems that let five sheets align into the name from a single viewpoint.",
       "Supported phones and prefers-reduced-motion, and made it run from file:// by using classic scripts instead of modules.",
     ],
-    featured: false,
+    featured: true,
     iteration: [
       "Make every deeper behaviour discoverable by stopping, with none of them explained.",
       "Design for three speeds of visit: scroll through, linger, and return repeatedly.",
@@ -455,7 +455,7 @@ export const projects = projectsSchema.parse([
       "Implemented identity, workspaces, document upload and the asynchronous processing pipeline.",
       "Recorded 24 architecture decisions with the alternatives rejected, and documented failure modes and runbooks for each dependency.",
     ],
-    featured: false,
+    featured: true,
     iteration: [
       "Write the failure behaviour of each dependency before relying on it.",
       "Keep the status honest: retrieval and chat are listed as not yet built.",
