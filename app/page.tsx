@@ -4,7 +4,6 @@ import { HeroExperience } from "@/components/hero/hero-experience";
 import { AboutSection } from "@/components/storytelling/about-section";
 import { PoolRules } from "@/components/storytelling/pool-rules";
 import { ServicesSection } from "@/components/storytelling/services-section";
-import { StorySection } from "@/components/storytelling/story-section";
 import { SkillsMarquee } from "@/components/work/skills-marquee";
 import { WorkShowcase } from "@/components/work/work-showcase";
 
@@ -25,8 +24,6 @@ export default function HomePage() {
         <WorkShowcase />
         {/* [07/09] Pool Rules */}
         <PoolRules />
-        {/* [08/09] The Long Game */}
-        <StorySection />
         {/* [09/09] FAQ + Closing banner */}
         <ContactConversion />
       </main>
