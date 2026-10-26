@@ -3,7 +3,6 @@ import { ContactConversion } from "@/components/conversion/contact-conversion";
 import { HeroExperience } from "@/components/hero/hero-experience";
 import { AboutSection } from "@/components/storytelling/about-section";
 import { PoolRules } from "@/components/storytelling/pool-rules";
-import { ProcessSection } from "@/components/storytelling/process-section";
 import { ServicesSection } from "@/components/storytelling/services-section";
 import { StorySection } from "@/components/storytelling/story-section";
 import { SkillsMarquee } from "@/components/work/skills-marquee";
@@ -22,8 +21,6 @@ export default function HomePage() {
         <AboutSection />
         {/* [03/09] Services */}
         <ServicesSection />
-        {/* [04/09] How I Work */}
-        <ProcessSection />
         {/* [05/09] Selected Work */}
         <WorkShowcase />
         {/* [07/09] Pool Rules */}
