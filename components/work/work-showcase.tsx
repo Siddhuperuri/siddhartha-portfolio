@@ -1,5 +1,5 @@
 import { SectionRegister } from "@/components/primitives/section-register";
-import { WorkIndex } from "@/components/work/work-stage";
+import { ProjectStack } from "@/components/work/project-stack";
 import { getFeaturedProjects } from "@/lib/projects";
 
 /**
@@ -29,12 +29,12 @@ export function WorkShowcase() {
             <span className="text-[var(--paper-400)]">David, meet Goliath.</span>
           </h2>
           <p className="col-span-12 mt-[var(--space-8)] max-w-[42ch] font-[family-name:var(--font-sans)] text-[16px] leading-[1.6] text-[var(--paper-200)] md:col-span-4 md:mt-[var(--space-12)]">
-            Five projects. Each one earns its place by turning a real question into a working artefact you can click on — interface, identity, or interactive prototype.
+            Selected projects. Each one earns its place by turning a real question into a working artefact you can click on — interface, identity, or interactive prototype.
           </p>
         </div>
 
         <div className="mt-[var(--space-20)]">
-          <WorkIndex projects={projects} />
+          <ProjectStack projects={projects} />
         </div>
       </div>
     </section>

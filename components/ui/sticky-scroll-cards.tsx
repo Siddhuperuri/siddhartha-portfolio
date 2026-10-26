@@ -1,65 +1,38 @@
 "use client";
 
+import { useReducedMotion, useScroll, useTransform, motion } from "framer-motion";
+import { useRef, type ReactNode, type RefObject } from "react";
+
 import { cn } from "@/lib/utils";
-import {
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  motion,
-} from "framer-motion";
-import ReactLenis from "lenis/react";
-import { useRef } from "react";
 
-export interface StickyScrollCardItem {
-  title: string;
-  src: string;
-}
-
-interface StickyScrollCardsProps {
-  /** Array of card items, each with a title and image src URL */
-  cards?: StickyScrollCardItem[];
-  /** Hint label shown above the stack */
-  hint?: string;
+interface StickyScrollCardsProps<T> {
+  /** Items to stack, in order. */
+  items: T[];
+  /** Renders the face of one card. */
+  renderCard: (item: T, index: number) => ReactNode;
+  /** Stable key for an item. */
+  getKey: (item: T, index: number) => string;
   /** Additional CSS classes for the outer container */
   className?: string;
+  /** Classes for each card's frame (size, surface, border). */
+  cardClassName?: string;
 }
 
-const DEFAULT_CARDS: StickyScrollCardItem[] = [
-  {
-    title: "Misty Alps",
-    src: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=85",
-  },
-  {
-    title: "Sunlit Grove",
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=85",
-  },
-  {
-    title: "Turquoise Shore",
-    src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=85",
-  },
-  {
-    title: "Mountain Pass",
-    src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=1200&q=85",
-  },
-  {
-    title: "Rolling Hills",
-    src: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=85",
-  },
-];
-
-const TILT_PATTERN = [-1.25, 0.85, -0.65, 1.35, -0.9];
+const TILT_PATTERN = [-0.6, 0.45, -0.35, 0.7, -0.5];
 
 function StackCard({
-  card,
+  children,
+  cardClassName,
   index,
   total,
   container,
   reduceMotion,
 }: {
-  card: StickyScrollCardItem;
+  children: ReactNode;
+  cardClassName?: string;
   index: number;
   total: number;
-  container: React.RefObject<HTMLDivElement | null>;
+  container: RefObject<HTMLDivElement | null>;
   reduceMotion: boolean;
 }) {
   const { scrollYProgress } = useScroll({
@@ -67,7 +40,7 @@ function StackCard({
     offset: ["start start", "end end"],
   });
   const start = total > 1 ? index / (total + 1) : 0;
-  const restingScale = Math.max(0.56, 1 - (total - index - 1) * 0.095);
+  const restingScale = Math.max(0.6, 1 - (total - index - 1) * 0.08);
   const scale = useTransform(
     scrollYProgress,
     [start, 1],
@@ -75,69 +48,54 @@ function StackCard({
   );
 
   return (
-    <section className="sticky top-0 grid h-screen place-items-center">
-      <motion.figure
-        className="relative m-0 origin-top overflow-hidden rounded bg-white text-neutral-950"
+    <section className="sticky top-0 grid h-screen place-items-start justify-items-center">
+      <motion.div
+        className={cn("relative origin-top overflow-hidden", cardClassName)}
         style={{
           scale,
           rotate: reduceMotion ? 0 : TILT_PATTERN[index % TILT_PATTERN.length],
-          top: `calc(-5vh + ${160 + index * 22}px)`,
-          boxShadow:
-            "0 2px 5px rgb(0 0 0 / 0.06), 0 18px 48px rgb(0 0 0 / 0.13)",
+          marginTop: `calc(max(6rem, 14vh) + ${index * 22}px)`,
+          willChange: reduceMotion ? "auto" : "transform",
         }}
       >
-        <div className="p-2.5 pb-0">
-          <img
-            src={card.src}
-            alt={card.title}
-            className="block h-[clamp(210px,32vw,290px)] w-[min(78vw,460px)] object-cover"
-            loading={index < 2 ? "eager" : "lazy"}
-            draggable={false}
-          />
-        </div>
-        <figcaption className="grid h-11 place-items-center px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-400">
-          {card.title}
-        </figcaption>
-      </motion.figure>
+        {children}
+      </motion.div>
     </section>
   );
 }
 
-export function StickyScrollCards({
-  cards = DEFAULT_CARDS,
-  hint = "scroll to explore",
+/**
+ * Cards that pin to the top as you scroll and shrink back as the next one
+ * stacks over them. Scroll smoothing comes from the site-wide Lenis provider,
+ * so the stack deliberately does not start a second Lenis instance.
+ */
+export function StickyScrollCards<T>({
+  items,
+  renderCard,
+  getKey,
   className,
-}: StickyScrollCardsProps) {
+  cardClassName,
+}: StickyScrollCardsProps<T>) {
   const container = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion() ?? false;
 
-  const content = (
-    <main
+  return (
+    <div
       ref={container}
-      className={cn(
-        "relative flex w-full flex-col items-center pb-[100vh] pt-[50vh]",
-        className,
-      )}
+      className={cn("relative flex w-full flex-col pb-[30vh]", className)}
     >
-      <div className="absolute left-1/2 top-[8%] flex -translate-x-1/2 flex-col items-center gap-3">
-        <p className="text-[10px] font-medium uppercase tracking-[0.2em] opacity-30">
-          {hint}
-        </p>
-        <span className="h-12 w-px bg-gradient-to-b from-foreground/30 to-transparent" />
-      </div>
-
-      {cards.map((card, index) => (
+      {items.map((item, index) => (
         <StackCard
-          key={`${card.src}-${index}`}
-          card={card}
-          index={index}
-          total={cards.length}
+          cardClassName={cardClassName}
           container={container}
+          index={index}
+          key={getKey(item, index)}
           reduceMotion={reduceMotion}
-        />
+          total={items.length}
+        >
+          {renderCard(item, index)}
+        </StackCard>
       ))}
-    </main>
+    </div>
   );
-
-  return reduceMotion ? content : <ReactLenis root>{content}</ReactLenis>;
 }
