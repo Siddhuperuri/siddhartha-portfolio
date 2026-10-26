@@ -488,4 +488,142 @@ export const projects = projectsSchema.parse([
       "Answers are designed so every citation resolves to a source passage.",
     ],
   },
+  {
+    artefacts: [
+      {
+        detail:
+          "A pure rules engine kept separate from rendering. Every frame the 3D layer reads game state and writes nothing back, so visuals cannot drift from the rules.",
+        kind: "simulation",
+        label: "Rules-first engine",
+      },
+      {
+        detail:
+          "Marathon, Sprint and Ultra modes with their own goals and rankings, plus a line-clear signature for single, double, triple, tetris, perfect clear and T-spin.",
+        kind: "simulation",
+        label: "Modes and clear effects",
+      },
+      {
+        detail:
+          "A chamfered title mark, a rotating 3D tetromino spiral on a plinth, and a HUD that keeps the board as the focal point.",
+        kind: "brand",
+        label: "Menu and HUD",
+      },
+    ],
+    challenge:
+      "Give a familiar puzzle game a premium 3D presentation without letting the visuals ever disagree with the rules underneath.",
+    context: "3D arcade game",
+    description:
+      "A 3D arcade interpretation of Tetris built with React, Three.js and a pure rules engine, with three game modes and graphics presets that change real rendering work.",
+    designSystem: [
+      "A near-black stage with one lime accent keeps the coloured pieces as the loudest thing on screen.",
+      "Each tetromino has its own material, from machined steel to translucent polymer, with a colour-keyed front plate so neighbours stay readable.",
+      "Motion is tied to game events: it confirms a lock or a clear, and reduced motion removes sway, shake and debris entirely.",
+    ],
+    development: [
+      "Wrote the rules engine, input handling with auto-repeat, and a fixed-step game loop as plain TypeScript, with the renderer only reading from it.",
+      "Built the 3D arena with instanced meshes, so the whole stack is roughly 14 draw calls, with Low, High and Ultra presets for post-processing, shadows and effect budgets.",
+      "Added versioned local persistence, a seedable piece sequence for repeatable tests, and a 2D canvas fallback for browsers without WebGL.",
+    ],
+    featured: true,
+    iteration: [
+      "Smooth piece motion as a decaying offset on top of the logical position, so visuals always converge on the true game state.",
+      "Give every line-clear a distinct visual, and allocate all effect objects once instead of per clear.",
+      "Keep the unfinished parts visible: the Overdrive meter is labelled as a placeholder with no mechanic behind it.",
+    ],
+    media: [],
+    research: [
+      "How much can the visuals add before they get in the way of reading the board at speed?",
+      "How can a renderer follow the rules engine closely enough that a line clear looks like what the engine did?",
+      "What should a lower-powered device give up first when frame rate drops?",
+    ],
+    results: [
+      "Delivered a playable 3D game with three modes, hold and next previews, and local statistics and personal bests.",
+      "The project status file records 201 unit tests and 21 end-to-end browser tests passing at the last run.",
+      "Touch controls, music and the Overdrive mechanic are not built yet, and frame rate has not been measured on integrated GPUs or phones.",
+    ],
+    roles: [
+      { label: "Role", value: "Designer & developer" },
+      { label: "Focus", value: "Game engine & 3D rendering" },
+    ],
+    slug: "tetrix",
+    summary:
+      "A 3D take on Tetris where a pure rules engine drives every block, effect and camera move.",
+    title: "TETRIX",
+    tools: ["TypeScript", "React", "Three.js", "Vitest", "Playwright"],
+    type: "interactive",
+    wireframes: [
+      "The HUD is a three-column layout around a transparent stage cell, and the board is framed to fit that cell.",
+      "On portrait tablets and phones it becomes a compact strip of hold, score and next above a full-width stage.",
+      "The menu, results and pause screens share one set of components with the in-game HUD.",
+    ],
+  },
+  {
+    artefacts: [
+      {
+        detail:
+          "Every lit surface picks a glyph from a coverage-sorted atlas by its brightness, and the glyph grid is attached to each piece so characters move with it.",
+        kind: "simulation",
+        label: "ASCII shader",
+      },
+      {
+        detail:
+          "A screen pass adds depth-edge outlines, colour grading and Bayer or halftone dithering over the glyph surface.",
+        kind: "simulation",
+        label: "Halftone pipeline",
+      },
+      {
+        detail:
+          "A setup panel for mode, side, match type and six engine strengths, plus an optional account and a level and rating readout.",
+        kind: "flow",
+        label: "Game setup and progression",
+      },
+    ],
+    challenge:
+      "Make chess feel like a tactile 3D object drawn entirely in glyphs, while keeping it fully playable, accessible and honest about what is and is not verified.",
+    context: "3D chess game",
+    description:
+      "A 3D chess game rendered through colourful ASCII glyphs and GPU dithering, playable against a Stockfish engine or a second player in the browser.",
+    designSystem: [
+      "One glyph shader draws every lit surface, so the whole scene shares a single visual language.",
+      "The interface is DOM text in a monospace face, so it stays crisp on top of the dithered 3D scene.",
+      "A semantic DOM board mirrors the game state and doubles as a playable 2D fallback and the route for keyboard and screen-reader play.",
+    ],
+    development: [
+      "Built the game on chess.js for the rules, a procedural 3D board and pieces in React Three Fiber, and a custom shader and dither pipeline.",
+      "Runs Stockfish as a WebAssembly engine in a Web Worker, with six difficulty presets and a fallback search if the engine fails.",
+      "Added progression with XP, levels, Elo-style rated games and 13 verified challenge positions, plus optional Supabase accounts, saved games and privacy controls.",
+    ],
+    featured: true,
+    iteration: [
+      "Keep rules authoritative in one place and let rendering, animation and the accessible board all read from it.",
+      "Make accounts optional so guest play is complete and no account code loads without configuration.",
+      "State the limits plainly: progression is local and unverified, and performance was measured only in a desktop browser.",
+    ],
+    media: [],
+    research: [
+      "How far can a scene be pushed into glyphs and dithering before pieces stop being readable as chess pieces?",
+      "How can the game be fully playable without the 3D view for keyboard and screen-reader users?",
+      "What would make local progression honest about not being competitive evidence?",
+    ],
+    results: [
+      "Delivered a playable 3D chess game with a Stockfish opponent, two-player mode, challenges, saved games and a theme lab.",
+      "Mate challenges are verified by exhaustive search through chess.js, and the project includes a perft test of the rules.",
+      "Drag-to-move is not implemented, and performance has not been measured on mobile hardware.",
+    ],
+    roles: [
+      { label: "Role", value: "Designer & developer" },
+      { label: "Focus", value: "3D rendering & game systems" },
+    ],
+    slug: "halftone-gambit",
+    summary:
+      "3D chess drawn entirely in ASCII glyphs and halftone dithering, with a Stockfish opponent in the browser.",
+    title: "Halftone Gambit",
+    tools: ["TypeScript", "React", "Three.js", "Stockfish", "Supabase"],
+    type: "interactive",
+    wireframes: [
+      "A left-hand setup panel holds mode, side, match type and engine strength, beside the 3D board.",
+      "The title is an ASCII wordmark, with level, rating and account status in a compact strip above the options.",
+      "Legal and privacy links sit at the foot of the setup panel.",
+    ],
+  },
 ]);
