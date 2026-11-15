@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { authorityArticles } from "@/content/authority";
+import { experiments } from "@/content/experiments";
 import { getProjectSlugs } from "@/lib/projects";
 import { siteUrl } from "@/lib/site";
 
@@ -20,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: updatedAt,
       priority: 0.9,
       url: new URL(`/work/${slug}`, siteUrl).toString(),
+    })),
+    ...experiments.map((experiment) => ({
+      changeFrequency: "monthly" as const,
+      lastModified: updatedAt,
+      priority: 0.5,
+      url: new URL(`/lab/${experiment.slug}`, siteUrl).toString(),
     })),
     ...authorityArticles.map((article) => ({
       changeFrequency: "yearly" as const,

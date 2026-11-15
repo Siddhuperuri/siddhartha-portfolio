@@ -1,9 +1,16 @@
 "use client";
 
-import { useRef, type CSSProperties, type ReactNode } from "react";
+import {
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { useInView } from "@/hooks/use-in-view";
 import { useReducedMotionPreference } from "@/hooks/use-reduced-motion";
+import { isScrollingFast, subscribeScrollingFast } from "@/lib/scroll-bus";
 import { cn } from "@/lib/utils";
 
 type InViewMountProps = {
@@ -23,6 +30,11 @@ type InViewMountProps = {
  * near the viewport, and unmounts them again when they scroll far away.
  * Browsers cap live WebGL contexts at around 16, and this page already runs a
  * WebGPU hero, so effects have to hand their context back when off-screen.
+ *
+ * Mounting is also held back while the page is being scrolled quickly. Setting
+ * up a canvas and compiling its shaders is tens of milliseconds of main-thread
+ * work; doing it for a stage the visitor is flying past buys nothing and shows
+ * up as a hitch in the scroll. The stage mounts as soon as they slow down.
  */
 export function InViewMount({
   children,
@@ -36,7 +48,16 @@ export function InViewMount({
   const inView = useInView(ref, rootMargin);
   const reduced = useReducedMotionPreference();
 
-  const live = inView && (staticOk || !reduced);
+  const scrollingFast = useSyncExternalStore(
+    subscribeScrollingFast,
+    isScrollingFast,
+    () => false,
+  );
+
+  const wanted = inView && (staticOk || !reduced);
+  const [live, setLive] = useState(false);
+  if (!wanted && live) setLive(false);
+  else if (wanted && !live && !scrollingFast) setLive(true);
 
   return (
     <div className={cn("relative", className)} ref={ref} style={style}>

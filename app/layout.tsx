@@ -16,7 +16,8 @@ const geistSans = Geist({
   display: "swap",
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "600"],
+  // No weight list: Google serves Geist as one variable file, and asking for
+  // fixed weights now returns the same file three times, which fails the build.
 });
 
 const geistMono = Geist_Mono({

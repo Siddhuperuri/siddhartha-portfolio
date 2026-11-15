@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
 /**
@@ -5,6 +7,8 @@ import { cn } from "@/lib/utils";
  * reference. Left: counter in mono. Center: uppercase mono label.
  */
 type SectionRegisterProps = {
+  /** Optional control at the right end of the bar. */
+  action?: ReactNode;
   className?: string;
   index: number;
   label: string;
@@ -12,6 +16,7 @@ type SectionRegisterProps = {
 };
 
 export function SectionRegister({
+  action,
   className,
   index,
   label,
@@ -21,13 +26,19 @@ export function SectionRegister({
   return (
     <div
       className={cn(
-        "mx-auto grid max-w-[var(--container-wide)] grid-cols-3 items-center px-[var(--grid-margin)] pt-[var(--space-4)] font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)]",
+        "mx-auto grid max-w-[var(--container-wide)] grid-cols-3 items-center px-[var(--grid-margin)] pt-[var(--space-4)] font-[family-name:var(--font-mono)] text-[12px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)] uppercase",
         className,
       )}
     >
-      <span className="text-left">[ {pad(index)} / {pad(total)} ]</span>
+      <span className="text-left">
+        [ {pad(index)} / {pad(total)} ]
+      </span>
       <span className="text-center text-[var(--paper-200)]">{label}</span>
-      <span aria-hidden />
+      {action ? (
+        <span className="flex justify-end">{action}</span>
+      ) : (
+        <span aria-hidden />
+      )}
     </div>
   );
 }

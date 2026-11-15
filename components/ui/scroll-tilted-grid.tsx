@@ -1,5 +1,6 @@
 "use client";
 
+import { invalidate, onScrollFrame, type ScrollFrame } from "@/lib/scroll-bus";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";
 import ReactLenis from "lenis/react";
@@ -69,12 +70,18 @@ function GalleryTile({
     const tile = tileRef.current;
     if (!tile || reduceMotion) return;
 
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const rect = tile.getBoundingClientRect();
-      const travel = window.innerHeight + rect.height;
-      const position = clamp((window.innerHeight - rect.top) / travel);
+    // The tile's own box never moves (only its child is transformed), so its
+    // place in the document is measured once and reused while scrolling.
+    let top = 0;
+    let height = 0;
+    let lastPosition = -1;
+
+    const update = ({ scrollY, viewport }: ScrollFrame) => {
+      const travel = viewport + height;
+      const position = clamp((viewport - (top - scrollY)) / travel);
+      // Off-screen tiles sit clamped at one end: nothing to rewrite.
+      if (position === lastPosition) return;
+      lastPosition = position;
       const distance = Math.abs(position - 0.5) * 2;
       const signed = (position - 0.5) * 2;
       const eased = distance * distance * (3 - 2 * distance);
@@ -93,21 +100,21 @@ function GalleryTile({
         `translate3d(${x}%, ${y}%, ${eased * 180}px) rotateX(${tilt}deg) rotateZ(${roll}deg) skewX(${skew}deg)`,
       );
     };
-    const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-
-    update();
-    const resizeObserver = new ResizeObserver(schedule);
+    const unsubscribe = onScrollFrame({
+      measure: ({ scrollY }) => {
+        const rect = tile.getBoundingClientRect();
+        top = rect.top + scrollY;
+        height = rect.height;
+        lastPosition = -1;
+      },
+      update,
+    });
+    const resizeObserver = new ResizeObserver(invalidate);
     resizeObserver.observe(tile);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (frame) window.cancelAnimationFrame(frame);
+      unsubscribe();
     };
   }, [maxBlur, maxTilt, reduceMotion, side]);
 

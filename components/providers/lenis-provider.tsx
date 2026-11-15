@@ -6,9 +6,17 @@ import Lenis from "lenis";
 import { useEffect } from "react";
 
 import { useReducedMotionPreference } from "@/hooks/use-reduced-motion";
+import { setScrollSource } from "@/lib/scroll-bus";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+let activeLenis: Lenis | null = null;
+
+/** The running smooth-scroll instance, or null when scrolling is native. */
+export function getLenis() {
+  return activeLenis;
 }
 
 /**
@@ -33,6 +41,8 @@ export function LenisProvider() {
       wheelMultiplier: 0.95,
     });
 
+    activeLenis = lenis;
+    setScrollSource(() => lenis.scroll);
     lenis.on("scroll", ScrollTrigger.update);
 
     function raf(time: number) {
@@ -44,6 +54,8 @@ export function LenisProvider() {
 
     return () => {
       gsap.ticker.remove(raf);
+      activeLenis = null;
+      setScrollSource(null);
       lenis.destroy();
     };
   }, [prefersReducedMotion]);
