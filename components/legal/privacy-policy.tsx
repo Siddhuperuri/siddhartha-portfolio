@@ -26,7 +26,7 @@ export function PrivacyPolicy() {
           }}
         />
 
-        <div className="px-[clamp(0.75rem,2vw,2.5rem)] pt-[calc(var(--space-16)+var(--space-10))]">
+        <div className="px-[clamp(0.75rem,2vw,2.5rem)] pt-[calc(var(--space-16)+var(--space-10))] lg:pl-24">
           <h1
             className="select-none font-[family-name:var(--font-condensed)] text-[clamp(3rem,13vw,11rem)] uppercase leading-[0.82] tracking-[-0.025em] text-transparent"
             id="privacy-title"

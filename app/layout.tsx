@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Anton, Geist, Geist_Mono } from "next/font/google";
 
 import { SiteFooter } from "@/components/chrome/site-footer";
-import { SiteDock } from "@/components/chrome/site-dock";
+import { SiteNav } from "@/components/chrome/site-nav";
 import { SiteHeader } from "@/components/chrome/site-header";
 import { AppProviders } from "@/components/providers/app-providers";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -95,7 +95,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <SiteHeader />
           {children}
           <SiteFooter />
-          <SiteDock />
+          <SiteNav />
         </AppProviders>
       </body>
     </html>
