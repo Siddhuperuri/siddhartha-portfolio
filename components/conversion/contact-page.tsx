@@ -61,14 +61,15 @@ export function ContactPage() {
         />
 
         {/* Masthead — full-bleed, escaping the container measure */}
-        <div className="px-[clamp(0.75rem,2vw,2.5rem)] pt-[calc(var(--space-16)+var(--space-12))]">
+        {/* From lg the left side rail owns the first 6rem, so the masthead starts after it. */}
+        <div className="px-[clamp(0.75rem,2vw,2.5rem)] pt-[calc(var(--space-16)+var(--space-12))] lg:pr-10 lg:pl-24">
           {/*
             32vw is measured, not guessed: Anton sets "Contact" at 0.59× its
             font size, so this is what makes the word reach both margins at
             every width, the way a masthead has to.
           */}
           <h1
-            className="select-none font-[family-name:var(--font-condensed)] text-[clamp(3.5rem,32vw,60rem)] uppercase leading-[0.78] tracking-[-0.03em] text-transparent"
+            className="select-none font-[family-name:var(--font-condensed)] text-[clamp(3.5rem,32vw,60rem)] lg:text-[clamp(3.5rem,calc((100vw-8.5rem)/3),60rem)] uppercase leading-[0.78] tracking-[-0.03em] text-transparent"
             id="contact-title"
             style={{
               backgroundClip: "text",

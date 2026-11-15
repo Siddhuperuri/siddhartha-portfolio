@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "../styles/design-tokens.css";
 
+/* The closed side rail (site-nav) sits in the left gutter from lg up; keep
+   content clear of it. */
+@media (min-width: 1024px) {
+  :root {
+    --grid-margin: 6rem;
+  }
+}
+
 /* The site is dark-only: make every dark: utility (used by the vendored
    components) always apply, and mark the root with .dark for JS theme checks. */
 @custom-variant dark (&);

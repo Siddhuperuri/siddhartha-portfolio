@@ -48,7 +48,7 @@ export function GradientHero01({
         }}
       />
 
-      <div className="relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
+      <div className="relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center lg:px-24">
         <div className="border border-[var(--rule-default)] bg-[rgba(10,10,10,0.5)] px-4 py-1.5 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)] uppercase backdrop-blur-md">
           {eyebrow}
         </div>

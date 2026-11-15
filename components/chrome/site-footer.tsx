@@ -164,7 +164,7 @@ export function SiteFooter() {
       {/* Legal strip */}
       {/* Sits on the brightest part of the red ground, so the ink is kept near
           full strength rather than the 0.66 used on the paper areas above. */}
-      <div className="mx-auto flex max-w-[var(--container-wide)] flex-col gap-[var(--space-4)] px-[var(--grid-margin)] pb-[var(--space-12)] pt-[calc(var(--space-24)+20px)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.88)] md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-[var(--container-wide)] flex-col gap-[var(--space-4)] px-[var(--grid-margin)] pb-[var(--space-12)] max-lg:pb-28 pt-[calc(var(--space-24)+20px)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.88)] md:flex-row md:items-center md:justify-between">
         <p className="flex flex-wrap items-center gap-x-[var(--space-4)] gap-y-1">
           <span>
             &copy; {year} {profile.name}. All rights reserved.
