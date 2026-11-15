@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { onScrollFrame } from "@/lib/scroll-bus";
 import { cn } from "@/lib/utils";
 
 /**
@@ -29,7 +30,7 @@ export function RevealText({
   endAt = 0.15,
 }: RevealTextProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const [progress, setProgress] = useState(0);
+  const [revealedUpTo, setRevealedUpTo] = useState(0);
 
   const words = useMemo(() => children.split(/(\s+)/), [children]);
   const wordIndices = useMemo(() => {
@@ -45,38 +46,24 @@ export function RevealText({
     const el = ref.current;
     if (!el) return;
 
-    let raf = 0;
-    const compute = () => {
-      raf = 0;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const startY = startAt * vh;
-      const endY = endAt * vh;
-      const range = startY - endY;
-      const p = (startY - rect.top) / range;
-      setProgress(Math.max(0, Math.min(1, p)));
-    };
-    const schedule = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(compute);
-    };
-    compute();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, [startAt, endAt]);
+    let top = 0;
 
-  const revealedUpTo = Math.floor(progress * wordCount);
+    return onScrollFrame({
+      measure: ({ scrollY }) => {
+        top = el.getBoundingClientRect().top + scrollY;
+      },
+      update: ({ scrollY, viewport }) => {
+        const startY = startAt * viewport;
+        const range = startY - endAt * viewport;
+        const progress = Math.max(0, Math.min(1, (startY - (top - scrollY)) / range));
+        // Whole words only, so React re-renders per word, not per frame.
+        setRevealedUpTo(Math.floor(progress * wordCount));
+      },
+    });
+  }, [startAt, endAt, wordCount]);
 
   return (
-    <Tag
-      ref={ref as never}
-      className={cn(className)}
-    >
+    <Tag ref={ref as never} className={cn(className)}>
       {words.map((token, i) => {
         if (!token.trim()) {
           return <span key={i}>{token}</span>;

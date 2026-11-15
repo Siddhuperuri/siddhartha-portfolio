@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { SectionRegister } from "@/components/primitives/section-register";
+import { onScrollFrame } from "@/lib/scroll-bus";
 import { cn } from "@/lib/utils";
 
 const rules = [
@@ -39,30 +40,22 @@ export function PoolRules() {
 
     const rows = Array.from(list.querySelectorAll<HTMLLIElement>("li"));
 
-    let raf = 0;
-    const compute = () => {
-      raf = 0;
-      const vh = window.innerHeight || 1;
-      const anchor = vh * 0.55;
-      let best = -1;
-      rows.forEach((row, i) => {
-        const rect = row.getBoundingClientRect();
-        if (rect.top <= anchor) best = i;
-      });
-      setLitIndex(best);
-    };
-    const schedule = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(compute);
-    };
-    compute();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
+    // Where each row sits in the document, measured off the scroll path.
+    let tops: number[] = [];
+
+    return onScrollFrame({
+      measure: ({ scrollY }) => {
+        tops = rows.map((row) => row.getBoundingClientRect().top + scrollY);
+      },
+      update: ({ scrollY, viewport }) => {
+        const anchor = scrollY + viewport * 0.55;
+        let best = -1;
+        for (let i = 0; i < tops.length; i++) {
+          if (tops[i] <= anchor) best = i;
+        }
+        setLitIndex(best);
+      },
+    });
   }, []);
 
   return (
@@ -90,7 +83,12 @@ export function PoolRules() {
                 color: i <= litIndex ? "var(--paper-100)" : "var(--paper-500)",
               }}
             >
-              <span className={cn("w-[3ch] shrink-0 text-[0.65em]", i <= litIndex ? "text-[var(--paper-300)]" : "text-[var(--paper-500)]")}>
+              <span
+                className={cn(
+                  "w-[3ch] shrink-0 text-[0.65em]",
+                  i <= litIndex ? "text-[var(--paper-300)]" : "text-[var(--paper-500)]",
+                )}
+              >
                 {String(i + 1).padStart(3, "0")}.
               </span>
               <span>{rule}</span>

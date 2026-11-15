@@ -1,7 +1,11 @@
 import { projects } from "@/content/projects";
 import type { Project } from "@/types/project";
 
-/** Cover art lives in public/assets/projects/<slug>.png (see scripts/generate-covers.mjs). */
+/**
+ * Covers live in public/assets/projects/<slug>.png. Where the project can be
+ * run they are screenshots of it; the rest are drawn by
+ * scripts/generate-covers.mjs.
+ */
 export function coverSrc(slug: string) {
   return `/assets/projects/${slug}.png`;
 }

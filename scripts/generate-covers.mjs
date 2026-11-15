@@ -1,4 +1,6 @@
-// Renders abstract cover art for each project into public/assets/projects/.
+// Renders abstract cover art into public/assets/projects/ for the projects that
+// have no real screenshot. Projects listed in SCREENSHOTS use a capture of the
+// running project instead, and are never overwritten here.
 // Run: node scripts/generate-covers.mjs
 // The palette matches styles/design-tokens.css (ink, paper, one red accent).
 import { mkdirSync } from "node:fs";
@@ -153,7 +155,16 @@ const covers = {
   },
 };
 
+// Covers that are real captures of the project (helios: its home page in the
+// dark theme; siddhartha: the name resolved at the vantage; tetrix and
+// halftone-gambit: their menus).
+const SCREENSHOTS = new Set(["helios", "siddhartha", "tetrix", "halftone-gambit"]);
+
 for (const [slug, draw] of Object.entries(covers)) {
+  if (SCREENSHOTS.has(slug)) {
+    console.log("kept screenshot", slug);
+    continue;
+  }
   await sharp(Buffer.from(draw()))
     .png({ compressionLevel: 9 })
     .toFile(join(out, `${slug}.png`));

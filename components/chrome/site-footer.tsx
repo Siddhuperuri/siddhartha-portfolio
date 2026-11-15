@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 
 import { OutlineButton } from "@/components/primitives/outline-button";
@@ -67,6 +68,13 @@ function ArrowUpIcon() {
  * rather than just stopped.
  */
 export function SiteFooter() {
+  const pathname = usePathname();
+  // A playground is one experiment and its controls, nothing else on the page.
+  if (/^\/lab\/[^/]+/.test(pathname)) return null;
+  return <SiteFooterContent />;
+}
+
+function SiteFooterContent() {
   const prefersReducedMotion = useReducedMotionPreference();
   const year = new Date().getFullYear();
 

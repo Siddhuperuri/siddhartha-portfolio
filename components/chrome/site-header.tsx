@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { OutlineButton } from "@/components/primitives/outline-button";
+import { onScrollFrame } from "@/lib/scroll-bus";
 import { cn } from "@/lib/utils";
 
 /**
@@ -13,12 +14,10 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  useEffect(
+    () => onScrollFrame({ update: ({ scrollY }) => setScrolled(scrollY > 24) }),
+    [],
+  );
 
   return (
     <header

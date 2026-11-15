@@ -1,9 +1,11 @@
+import { PlaygroundLink } from "@/components/lab/playground-link";
 import { InViewMount } from "@/components/primitives/in-view-mount";
 import { SectionRegister } from "@/components/primitives/section-register";
 import { ImageTrail } from "@/components/ui/image-trail";
 import { LetterCascade } from "@/components/ui/letter-cascade";
 import { LiquidChrome } from "@/components/ui/liquid-chrome";
 import { LiquidGlassCarousel } from "@/components/ui/liquid-glass-carousel";
+import { WheelPass } from "@/components/primitives/wheel-pass";
 import { ScrollTiltedGrid } from "@/components/ui/scroll-tilted-grid";
 import { WorkIndex } from "@/components/work/work-stage";
 import { getCoverItems } from "@/lib/covers";
@@ -40,7 +42,12 @@ export function WorkExplorer() {
           className="absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(10,10,10,0.2)] via-[rgba(10,10,10,0.55)] to-[var(--ink-950)]"
         />
 
-        <SectionRegister index={1} label="WORK" total={4} />
+        <SectionRegister
+          action={<PlaygroundLink slug="liquid-chrome" title="Liquid chrome" />}
+          index={1}
+          label="WORK"
+          total={4}
+        />
         <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)] pt-[calc(var(--space-section)*0.7)] pb-[var(--space-24)]">
           <h1
             className="font-[family-name:var(--font-display)] text-[clamp(4rem,13vw,12rem)] leading-[0.9] font-normal tracking-[var(--tracking-display)] text-[var(--paper-100)]"
@@ -63,21 +70,28 @@ export function WorkExplorer() {
         aria-label="Project carousel"
         className="relative border-b border-[var(--rule-hairline)]"
       >
-        <SectionRegister index={2} label="GALLERY" total={4} />
+        <SectionRegister
+          action={<PlaygroundLink slug="glass-carousel" title="Glass carousel" />}
+          index={2}
+          label="GALLERY"
+          total={4}
+        />
         <InViewMount
           className="mt-[var(--space-8)] h-[78svh] min-h-[30rem] w-full"
           fallback={<div aria-hidden className="h-full w-full bg-[var(--ink-900)]" />}
         >
-          <LiquidGlassCarousel
-            background="#0a0a0a"
-            className="h-full w-full"
-            items={covers.map((cover) => ({
-              src: cover.src,
-              title: cover.title,
-              aspect: 1.6,
-            }))}
-            panelHeight={420}
-          />
+          <WheelPass>
+            <LiquidGlassCarousel
+              background="#0a0a0a"
+              className="h-full w-full"
+              items={covers.map((cover) => ({
+                src: cover.src,
+                title: cover.title,
+                aspect: 1.6,
+              }))}
+              panelHeight={420}
+            />
+          </WheelPass>
         </InViewMount>
       </section>
 
@@ -85,7 +99,12 @@ export function WorkExplorer() {
         aria-labelledby="work-index-heading"
         className="relative border-b border-[var(--rule-hairline)]"
       >
-        <SectionRegister index={3} label="INDEX" total={4} />
+        <SectionRegister
+          action={<PlaygroundLink slug="image-trail" title="Image trail" />}
+          index={3}
+          label="INDEX"
+          total={4}
+        />
         <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)] pt-[calc(var(--space-section)*0.5)] pb-[var(--space-section)]">
           <h2 className="sr-only" id="work-index-heading">
             All projects
@@ -109,7 +128,12 @@ export function WorkExplorer() {
       </section>
 
       <section aria-label="Cover art" className="relative">
-        <SectionRegister index={4} label="COVERS" total={4} />
+        <SectionRegister
+          action={<PlaygroundLink slug="tilted-grid" title="Tilted grid" />}
+          index={4}
+          label="COVERS"
+          total={4}
+        />
         <div className="mx-auto max-w-[var(--container-wide)] px-[var(--grid-margin)]">
           <ScrollTiltedGrid
             aspectRatio="8 / 5"
