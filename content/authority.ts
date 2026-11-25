@@ -16,28 +16,27 @@ export type AuthorityArticle = {
 export const authorityArticles: readonly AuthorityArticle[] = [
   {
     description:
-      "What an interactive gravity simulation taught me about making complex systems understandable through direct manipulation.",
+      "What I learned about explaining a complex system by letting people push it around, from building a gravity simulation.",
     publishedAt: "2026-08-03",
     readingTime: "5 min read",
     sections: [
       {
         body: [
-          "A physics engine can be technically correct and still be difficult to understand. The moment a user can create a body, change a condition, and watch a trajectory respond, the system becomes something they can reason about.",
-          "That was the purpose behind Gravity Playground: make gravitational force, velocity, acceleration, and collision behaviour visible as a connected system rather than as isolated facts.",
+          "A physics engine can be correct and still hard to follow. It gets easier once someone can create a body, change a condition and watch the trajectory respond.",
+          "Gravity Playground started from that idea. Force, velocity, acceleration and collisions are visible in one running system, so nobody has to read them as separate facts.",
         ],
         title: "Interaction makes systems legible",
       },
       {
         body: [
-          "The interface has to separate three jobs: creating a system, observing it, and moving through it. When those jobs blur together, a user can change the world without understanding what changed or lose their spatial context while navigating.",
-          "A clear simulation workspace gives the physics room to lead, while controls stay available as instruments rather than competing visual objects.",
+          "I split the interface by job: creating a system, observing it and moving through it. When those jobs share one control, people change the world without knowing what they changed, or get lost while panning.",
+          "The simulation takes most of the screen and the controls sit around it like instruments.",
         ],
         title: "Controls need a clear role",
       },
       {
         body: [
-          "Particles, smooth motion, zoom, and pan can make a simulation feel compelling. They must also carry information. The visual system should help someone notice cause and effect, not make the engine look more complicated than it is.",
-          "Creative technology earns its place when the visual layer makes behaviour easier to understand.",
+          "Particles, smooth motion, zoom and pan make a simulation pleasant to use. I kept only the motion that shows cause and effect, because anything else makes the engine look more complicated than it is.",
         ],
         title: "Motion should explain, not decorate",
       },
@@ -48,28 +47,27 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "Why an early visual system is more than polish when a product has several emotional and practical jobs to do.",
+      "Why I drew wireframes and a logo for PETPONKS before refining any screen, when the product had several jobs to do at once.",
     publishedAt: "2026-08-03",
     readingTime: "4 min read",
     sections: [
       {
         body: [
-          "A new platform rarely begins with one clean user task. PETPONKS needed to hold adoption, community, and storytelling together. Before refining individual screens, it was important to decide how these ideas belonged in one product.",
-          "Wireframes helped make the relationship visible. They are not just lower-fidelity screens; they are a way to test what the product should make easy, prominent, and repeatable.",
+          "PETPONKS had to hold adoption, community and storytelling in one product, and none of the three was the obvious main task. Before polishing a screen I wanted to know how they fit together.",
+          "Wireframes answered that. I used them to test what the product should make easy, prominent and repeatable.",
         ],
         title: "Structure comes before styling",
       },
       {
         body: [
-          "A logo, colour direction, and type rhythm are useful early because they give every later decision a shared reference point. The goal is not a finished brand kit on day one. It is a coherent voice that can survive iteration.",
-          "For a community-focused product, that consistency helps emotional storytelling feel intentional instead of noisy.",
+          "A logo, a colour direction and a type rhythm give later decisions something to point at. I did not need a finished brand kit on day one, only a voice that would survive iteration.",
+          "In a community product the shared reference keeps the emotional storytelling from turning into noise.",
         ],
         title: "Identity creates continuity",
       },
       {
         body: [
-          "The practical question is always whether visual personality helps people move with confidence. A good system can feel warm and memorable while still making navigation, hierarchy, and action obvious.",
-          "Brand becomes most useful when it helps a product make sense.",
+          "The check I come back to is whether the personality helps people move with confidence. A warm, memorable system still has to make navigation, hierarchy and the next action obvious.",
         ],
         title: "Personality needs a job",
       },
@@ -80,92 +78,91 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "Why VIGIL-88 treats a camera frame as evidence to accumulate, not a verdict to act on, and what that changes about the whole system.",
+      "VIGIL-88 waits for evidence to build up across frames before it calls anything an incident. Here is how that shapes the design.",
     publishedAt: "2026-11-16",
     readingTime: "5 min read",
     sections: [
       {
         body: [
-          "A single frame is a weak witness. A shadow, a reflection or a passing hand can look like an event for exactly one frame, and a system that raises an alarm on that frame will teach its operator to ignore it.",
-          "VIGIL-88 is designed the other way round: observations accumulate into candidate events, the candidates are verified, and only then does an incident exist. The conclusion is drawn from time, not from a moment.",
+          "One frame is a weak witness. A shadow, a reflection or a passing hand can look like an event for exactly one frame, and an alarm that fires on it teaches the operator to ignore alarms.",
+          "In VIGIL-88 observations pile up into candidate events. The candidates get verified, and only then does an incident exist. The conclusion comes from time passing.",
         ],
         title: "A frame is evidence, not a verdict",
       },
       {
         body: [
-          "The interface follows the same logic. The console is specified as an instrument panel that ranks information by the cost of missing it: an unacknowledged critical incident first, then live camera views, the incident queue and camera health.",
-          "Colour is reserved almost entirely for severity, and never as the only signal of it. On a screen watched for hours, most of the interface has to stay quiet so that the one thing that matters can be loud.",
+          "The console follows the same rule. I specified it as an instrument panel ordered by the cost of missing something: an unacknowledged critical incident first, then the live camera views, the incident queue and camera health.",
+          "Colour is saved for severity, and it is never the only signal. Someone watching this screen for hours needs most of it to stay quiet.",
         ],
         title: "Design the screen for hour six",
       },
       {
         body: [
-          "Nothing is detected yet. The foundation runs: configuration, logging, a complete domain model, webcam capture and camera health. Detection, tracking, incidents and the console are designed but not built, and the repository says so in its own limitations document.",
-          "That honesty is a design decision. A capability that does not exist is absent or disabled with its reason stated, so no control ever appears to work when it does not.",
+          "Nothing is detected yet. The foundation runs: configuration, logging, the full domain model, webcam capture and camera health. Detection, tracking, incidents and the console are designed and not built, and the repository's limitations document says so.",
+          "A control for something that does not exist is either missing or disabled with the reason written next to it.",
         ],
         title: "Say what exists",
       },
     ],
     slug: "evidence-over-time-not-a-single-frame",
-    title: "Evidence Over Time, Not a Single Frame",
+    title: "Evidence Over Time",
     topic: "Systems design",
   },
   {
     description:
-      "What building the Helios solar calculator taught me about showing uncertainty so a non-expert can tell how much to believe a number.",
+      "How the Helios solar calculator shows a range and its assumptions, so a non-expert can judge how far to trust an estimate.",
     publishedAt: "2026-11-16",
     readingTime: "4 min read",
     sections: [
       {
         body: [
-          "A forecast presented as one confident number invites trust it has not earned. Someone deciding whether to install solar panels needs to know how much to believe the answer as much as they need the answer itself.",
-          "So every Helios estimate shows a range, a confidence level and the assumptions behind it. The number is the start of the conversation, not the end of it.",
+          "A single confident number asks for more trust than a forecast has earned. Someone deciding whether to put panels on a roof needs to know how much to believe the answer.",
+          "Every Helios estimate therefore comes with a range, a confidence level and the assumptions behind it.",
         ],
         title: "A number needs a range",
       },
       {
         body: [
-          "Helios puts one engine behind two audiences: a person deciding whether to install, and an analyst who needs to check the work. They share the same physical chain, from solar geometry to PV conversion and inverter losses, written as pure functions.",
-          "The surfaces differ on purpose. The consumer calculator is light and mobile-first, because it is read on a phone outdoors. The analysis console is a dark instrument panel built for dense work, with calibrated prediction intervals and time-aware validation.",
+          "One engine serves two audiences: a person deciding whether to install, and an analyst who has to check the work. Both run on the same physical chain, from solar geometry through PV conversion to inverter losses, written as pure functions.",
+          "The surfaces differ. The calculator is light and built for phones, because people read it outdoors. The analysis console is a dark instrument panel for dense work, with calibrated prediction intervals and time-aware validation.",
         ],
         title: "One engine, two audiences",
       },
       {
         body: [
-          "The consumer interview is data served by the API, so a farmer and a factory manager are asked different questions by the same engine. Adding a new kind of user means adding data, not building another wizard.",
-          "Making a prediction checkable by someone who did not build it is the real test of the interface: results trace back to their data and code, and the limits are written down in a delivery report.",
+          "The consumer interview is data served by the API, so a farmer and a factory manager get different questions from the same engine. A new kind of user means new data and no new wizard.",
+          "The test for the whole interface is whether someone who did not build it can check a prediction. Results trace back to their data and code, and a delivery report lists the limits.",
         ],
         title: "Ask only what the answer needs",
       },
     ],
     slug: "show-the-range-not-just-the-number",
-    title: "Show the Range, Not Just the Number",
+    title: "Give Every Estimate a Range",
     topic: "Data products",
   },
   {
     description:
-      "What it means to design an interface where the visitor's stillness is the input, and why the SIDDHARTHA artwork leaves its depths unexplained.",
+      "In the SIDDHARTHA artwork the visitor's stillness is the input. Here is what that did to the design.",
     publishedAt: "2026-11-16",
     readingTime: "4 min read",
     sections: [
       {
         body: [
-          "SIDDHARTHA is built around one law: stillness resolves, motion scatters, attention pulls. The name is made of five layers of light at five depths, and it only becomes legible from exactly one vantage point, and only if you hold still.",
-          "Most interfaces reward activity. This one rewards the opposite, which changes how a visitor behaves in the first ten seconds and what they notice afterwards.",
+          "SIDDHARTHA runs on one law: stillness resolves, motion scatters, attention pulls. The name is built from five layers of light at five depths, and it reads as a word from exactly one vantage point, if you hold still there.",
+          "Most interfaces reward activity. This one rewards waiting, and that changes what a visitor does in the first ten seconds.",
         ],
         title: "Reward the pause",
       },
       {
         body: [
-          "The piece is designed for three speeds of visit: scrolling through, lingering, and returning more than once. The deeper behaviours are never explained. Each one is found by stopping.",
-          "The open question was how much can be left unexplained before it reads as broken. The answer was to make the first layer of the experience complete by itself, so a visitor who never finds anything deeper has still seen a whole piece.",
+          "I designed for three speeds of visit: scrolling through, lingering, and coming back. Nothing deeper is explained. Each behaviour is found by stopping.",
+          "My open question was how much I could leave unexplained before it looked broken. I made the first layer complete on its own, so a visitor who never finds anything deeper has still seen a whole piece.",
         ],
         title: "Leave things to be found",
       },
       {
         body: [
-          "A small 3D lens appears at only three held moments, and the 2D piece is complete without WebGL. It supports phones and prefers-reduced-motion, and it runs from a plain file with no build step and no network requests.",
-          "Restraint is what keeps the spectacle meaningful. The enhancement stays an enhancement, never a dependency.",
+          "A small 3D lens appears at only three held moments, and the 2D piece works without WebGL. It supports phones and reduced motion, and it runs from a plain file with no build step and no network requests.",
         ],
         title: "Keep the enhancement an enhancement",
       },
@@ -176,28 +173,28 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "Which architectural rules are worth enforcing in CI instead of review, drawn from the layering checks in ORBIT and VIGIL-88.",
+      "Which architecture rules I make CI enforce instead of leaving to review, taken from the layering checks in ORBIT and VIGIL-88.",
     publishedAt: "2026-11-16",
     readingTime: "5 min read",
     sections: [
       {
         body: [
-          "A rule that lives only in a document survives until the first deadline. Both ORBIT and VIGIL-88 check their layering with import-linter, so a dependency that points the wrong way fails the build instead of waiting for someone to notice in review.",
-          "In ORBIT the direction runs composition, api, application and infrastructure, domain, core. In VIGIL-88 a pure domain layer, a single clock module and no swallowed exceptions are enforced the same way.",
+          "A rule that lives in a document lasts until the first deadline. ORBIT and VIGIL-88 both check their layering with import-linter, so a dependency pointing the wrong way fails the build before anyone has to spot it in review.",
+          "ORBIT's direction runs composition, api, application and infrastructure, domain, core. VIGIL-88 enforces a pure domain layer, a single clock module and no swallowed exceptions the same way.",
         ],
         title: "Let the build say no",
       },
       {
         body: [
-          "ORBIT recorded 24 architecture decisions along with the alternatives that were rejected, and documented the failure behaviour of each dependency before relying on it. A decision with no recorded alternatives is just an opinion.",
-          "Configuration follows the same habit: fail fast on missing settings instead of booting with defaults that hide the problem.",
+          "For ORBIT I recorded 24 architecture decisions with the alternatives I rejected, and wrote down how each dependency fails before I relied on it. A decision with no recorded alternatives is an opinion.",
+          "Configuration works the same way: if a setting is missing, the app refuses to start instead of booting on defaults that hide the problem.",
         ],
         title: "Write the failure down first",
       },
       {
         body: [
-          "ORBIT delivered identity, workspaces, upload and an asynchronous processing pipeline. Retrieval and chat are designed but not built, and the repository does not call itself production-ready.",
-          "Stating the status plainly is part of the architecture. It tells the next reader, including the next version of me, exactly where the real work begins.",
+          "ORBIT has identity, workspaces, upload and an asynchronous processing pipeline. Retrieval and chat are designed and not built, and the repository does not call itself production-ready.",
+          "The next reader, including me in six months, can see where the real work starts.",
         ],
         title: "Keep the status honest",
       },
@@ -208,28 +205,28 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "How TETRIX keeps a premium 3D presentation from ever disagreeing with the game underneath it.",
+      "How TETRIX keeps its 3D presentation from ever disagreeing with the game rules underneath it.",
     publishedAt: "2026-11-16",
     readingTime: "5 min read",
     sections: [
       {
         body: [
-          "TETRIX has a pure rules engine, written as plain TypeScript with input handling and a fixed-step loop. The 3D layer reads game state every frame and writes nothing back, so the visuals cannot drift from the rules.",
-          "That one-way flow is the whole trick. When a line clears, the effect shows what the engine actually did, because the renderer has no other source of truth.",
+          "TETRIX has a pure rules engine: plain TypeScript with its own input handling and a fixed-step loop. The 3D layer reads game state every frame and never writes to it, so the visuals cannot drift from the rules.",
+          "When a line clears, the effect shows what the engine did, because the renderer has no other source of truth.",
         ],
         title: "The renderer only reads",
       },
       {
         body: [
-          "Piece motion is smoothed as a decaying offset on top of the logical position, so the picture always converges on the true state. Every line-clear has its own visual signature, from single to tetris, perfect clear and T-spin, and all effect objects are allocated once instead of per clear.",
-          "The arena uses instanced meshes, which keeps the whole stack to roughly 14 draw calls, with Low, High and Ultra presets that change real rendering work.",
+          "Piece motion is a decaying offset on top of the logical position, so the picture always settles on the true state. Each kind of clear has its own look (single, tetris, perfect clear, T-spin), and every effect object is allocated once instead of per clear.",
+          "The arena uses instanced meshes and the whole stack costs roughly 14 draw calls. Low, High and Ultra presets change real rendering work.",
         ],
         title: "Smooth the picture, not the truth",
       },
       {
         body: [
-          "The project status records 201 unit tests and 21 end-to-end tests passing at the last run. It also records what is missing: touch controls, music and the Overdrive mechanic are not built, and frame rate has not been measured on integrated GPUs or phones.",
-          "The Overdrive meter is labelled as a placeholder in the game itself, because an unfinished part should look unfinished.",
+          "The status file records 201 unit tests and 21 end-to-end tests passing at the last run. It also lists what is missing: touch controls, music and the Overdrive mechanic are not built, and I have not measured frame rate on integrated GPUs or phones.",
+          "The Overdrive meter is labelled as a placeholder in the game itself.",
         ],
         title: "Keep the unfinished parts visible",
       },
@@ -240,30 +237,30 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "Why Halftone Gambit ships a semantic DOM board beside its ASCII 3D scene, and what that did for keyboard and screen-reader play.",
+      "Why Halftone Gambit ships a plain DOM chess board next to its ASCII 3D scene, and what that did for keyboard and screen-reader play.",
     publishedAt: "2026-11-16",
     readingTime: "4 min read",
     sections: [
       {
         body: [
-          "Halftone Gambit draws chess entirely in glyphs and dithering, which is lovely to look at and hard to read as a board. The question was how far a scene can be pushed before the pieces stop looking like chess pieces.",
-          "The answer was never to depend on the picture alone. A semantic DOM board mirrors the game state, so the same game exists in a form that does not rely on the 3D view.",
+          "Halftone Gambit draws chess in glyphs and dithering. It looks good and is hard to read as a board, and I wanted to find how far a scene can go before the pieces stop looking like chess pieces.",
+          "I also decided the game would never depend on the picture. A semantic DOM board mirrors the game state, so the same game exists without the 3D view.",
         ],
         title: "Beautiful, and still playable",
       },
       {
         body: [
-          "That DOM board does three jobs: it is a playable 2D fallback, the route for keyboard play and the route for screen-reader play. The interface text is real monospace DOM on top of the scene, so it stays crisp.",
-          "Rules stay authoritative in one place, and the rendering, the animation and the accessible board all read from it.",
+          "That board is the 2D fallback and the way in for keyboard and screen-reader players. The interface text is real monospace DOM on top of the scene, so it stays sharp.",
+          "The rules live in one place, and the rendering, the animation and the accessible board all read from it.",
         ],
         title: "One game state, several ways to play it",
       },
       {
         body: [
-          "Accounts are optional, so guest play is complete and no account code loads without configuration. Mate challenges are verified by exhaustive search, and the project includes a perft test of the rules.",
-          "The limits are written down too: progression is local and unverified, drag-to-move is not implemented, and performance was measured only in a desktop browser.",
+          "Accounts are optional. Guest play is complete, and no account code loads unless it is configured. Mate challenges are checked by exhaustive search through chess.js, and the project has a perft test of the rules.",
+          "Progression is local and unverified, drag-to-move is not implemented, and I measured performance only in a desktop browser.",
         ],
-        title: "Be exact about what is verified",
+        title: "Say what is verified",
       },
     ],
     slug: "playable-without-the-3d-view",
@@ -272,28 +269,28 @@ export const authorityArticles: readonly AuthorityArticle[] = [
   },
   {
     description:
-      "What a collection of logos, posters and identity concepts taught me about typography as structure rather than decoration.",
+      "What making logos, posters and identity concepts taught me about treating typography as structure.",
     publishedAt: "2026-11-16",
     readingTime: "4 min read",
     sections: [
       {
         body: [
-          "In the Creative Design Collection each piece treats typography as a structural element. If the type and the composition hold up in plain black and white, colour can only improve them.",
-          "So the working order is typography and composition first, colour last. A layout that depends on colour to make sense has not finished its structural work.",
+          "In the Creative Design Collection, type is part of the structure of each piece. If the typography and composition work in black and white, colour can only improve them.",
+          "So I work in that order: typography and composition first, colour last. A layout that needs colour to make sense is not finished.",
         ],
         title: "Structure before colour",
       },
       {
         body: [
-          "A logo alone is a graphic. A mark, a typeface and a colour system working together are an identity. Each identity in the collection is built as a small system, then tested across formats: logo, poster and banner.",
-          "Consistency across formats is the real test. If the system only works in one shape, it was a picture, not a system.",
+          "A logo alone is a graphic. A mark, a typeface and a colour system that work together make an identity. I built each identity in the collection as a small system and tried it as a logo, a poster and a banner.",
+          "If a system only holds up in one of those shapes, it was a picture.",
         ],
         title: "A mark is not an identity",
       },
       {
         body: [
-          "A poster or banner has a few seconds to communicate. It should still feel considered when someone stays longer. Legible and intentional beats merely decorative every time.",
-          "Taken together, the pieces make the case for one design sensibility across very different products, and they balance the portfolio's interactive and product work with pure visual craft.",
+          "A poster or banner has a few seconds to say something, and it should still reward a longer look. I aim for legible and intentional over decorative.",
+          "Across very different products the pieces share one sensibility, and they sit beside the portfolio's interactive and product work as pure visual craft.",
         ],
         title: "Quick to read, rewarding to stay with",
       },

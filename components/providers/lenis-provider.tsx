@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { useReducedMotionPreference } from "@/hooks/use-reduced-motion";
@@ -26,6 +27,16 @@ export function getLenis() {
  */
 export function LenisProvider() {
   const prefersReducedMotion = useReducedMotionPreference();
+  const pathname = usePathname();
+
+  // A new page starts at the top. Lenis keeps its own idea of the scroll
+  // position, so tell it directly instead of leaving it to catch up.
+  useEffect(() => {
+    const lenis = getLenis();
+    if (!lenis) return;
+    lenis.scrollTo(0, { immediate: true, force: true });
+    lenis.resize();
+  }, [pathname]);
 
   useEffect(() => {
     if (prefersReducedMotion) {

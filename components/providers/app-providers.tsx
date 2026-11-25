@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren } from "react";
 
+import { ScrollProgress } from "@/components/chrome/scroll-progress";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import { RenderParking } from "@/components/providers/render-parking";
@@ -11,6 +12,7 @@ export function AppProviders({ children }: PropsWithChildren) {
     <>
       <LenisProvider />
       <RenderParking />
+      <ScrollProgress />
       {children}
       <AnalyticsProvider />
     </>
