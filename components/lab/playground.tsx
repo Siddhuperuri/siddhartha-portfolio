@@ -33,7 +33,7 @@ const focusRing =
 const toolButton = cn(
   mono,
   focusRing,
-  "inline-flex h-10 min-w-10 items-center justify-center gap-2 border border-[var(--rule-default)] px-3 text-[10px] text-[var(--paper-200)] transition-colors duration-[var(--duration-fast)] hover:border-[var(--paper-300)] hover:text-[var(--paper-100)] motion-reduce:transition-none",
+  "inline-flex h-10 min-w-10 items-center justify-center gap-2 border border-[var(--rule-default)] px-3 text-[11px] text-[var(--paper-200)] transition-colors duration-[var(--duration-fast)] hover:border-[var(--paper-300)] hover:text-[var(--paper-100)] motion-reduce:transition-none",
 );
 
 // How long the controls must rest before the experiment is rebuilt with them.
@@ -89,7 +89,7 @@ type FieldProps = {
 function Field({ control, onChange, value }: FieldProps) {
   const id = useId();
   const label = (
-    <label className={cn(mono, "text-[10px] text-[var(--paper-300)]")} htmlFor={id}>
+    <label className={cn(mono, "text-[11px] text-[var(--paper-300)]")} htmlFor={id}>
       {control.label}
     </label>
   );
@@ -412,7 +412,7 @@ export function Playground({
       </Link>
 
       <div className="min-w-0 flex-1 max-sm:order-last max-sm:basis-full">
-        <p className={cn(mono, "text-[10px] text-[var(--paper-400)]")}>
+        <p className={cn(mono, "text-[11px] text-[var(--paper-400)]")}>
           [ {pad(index + 1)} / {pad(total)} ] Playground
         </p>
         <h1 className="truncate font-[family-name:var(--font-display)] text-[clamp(1.25rem,2.4vw,1.75rem)] leading-[1.15] text-[var(--paper-100)]">
@@ -510,7 +510,7 @@ export function Playground({
       <p
         className={cn(
           mono,
-          "px-[var(--grid-margin)] pb-3 text-[10px] text-[var(--paper-400)]",
+          "px-[var(--grid-margin)] pb-3 text-[11px] text-[var(--paper-400)]",
         )}
       >
         Scroll the page to drive it <span aria-hidden>↓</span>

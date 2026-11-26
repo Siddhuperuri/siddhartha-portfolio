@@ -275,7 +275,7 @@ export function OrbitCardStack({
                 <p className="mt-4 max-w-[17rem] text-[0.98rem] font-medium leading-[1.42] tracking-[-0.01em] text-[var(--paper-200)]">
                   {item.description}
                 </p>
-                <div className="mt-5 border-t border-white/15 pt-4 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--paper-400)]">
+                <div className="mt-5 border-t border-white/15 pt-4 text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[var(--paper-400)]">
                   {item.stat ?? "Profile"}
                 </div>
               </div>

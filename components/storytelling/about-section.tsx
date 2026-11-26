@@ -17,7 +17,7 @@ export function AboutSection() {
 
       <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] px-[var(--grid-margin)] pt-[calc(var(--space-section)*0.75)]">
         <div className="col-span-12 flex flex-col md:col-span-9 md:col-start-2">
-          <span className="inline-flex w-fit items-center bg-[var(--red-500)] px-2 py-1 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--ink-950)]">
+          <span className="inline-flex w-fit items-center bg-[var(--red-500)] px-2 py-1 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--ink-950)]">
             About
           </span>
 

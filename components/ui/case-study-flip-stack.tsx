@@ -169,7 +169,7 @@ function FlipCard({
           </div>
 
           <div className="mt-auto max-w-[46rem] pt-8">
-            <p className="mb-[clamp(10px,1.5vw,22px)] text-[10px] font-semibold uppercase tracking-[0.16em] opacity-70 sm:text-xs">
+            <p className="mb-[clamp(10px,1.5vw,22px)] text-[11px] font-semibold uppercase tracking-[0.16em] opacity-85 sm:text-xs">
               {item.eyebrow}
             </p>
             <h3 className="max-w-[16ch] text-balance text-[clamp(28px,3.25vw,48px)] font-semibold leading-[0.96] tracking-[-0.05em]">

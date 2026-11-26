@@ -97,7 +97,7 @@ export function InsightsMasthead() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="col-span-10 md:col-span-11">
-                  <span className="block font-[family-name:var(--font-mono)] text-[10px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] uppercase">
+                  <span className="block font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] uppercase">
                     {article.topic} · {article.readingTime}
                   </span>
                   <span className="mt-[var(--space-3)] block max-w-[24ch] font-[family-name:var(--font-display)] text-[length:var(--text-3xl)] leading-[1.05] tracking-[var(--tracking-heading)] text-[var(--paper-100)] transition-colors group-hover:text-[var(--red-500)] md:text-[length:var(--text-4xl)]">

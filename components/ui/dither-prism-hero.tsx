@@ -532,7 +532,7 @@ interface DitherPrismHeroProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const HERO_HEADLINE_CLASS =
-    "pb-[0.08em] text-[12cqi] md:text-[8cqi] lg:text-[6cqi] leading-[0.96] tracking-tighter font-bold text-transparent bg-clip-text bg-gradient-to-b from-zinc-900 via-zinc-500 to-zinc-800";
+    "pb-[0.08em] text-[12cqi] md:text-[8cqi] lg:text-[6cqi] leading-[0.96] tracking-tighter font-bold text-zinc-900";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Main Export Component

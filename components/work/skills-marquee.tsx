@@ -11,7 +11,7 @@ export function SkillsMarquee() {
   return (
     <section aria-labelledby="partners-heading" className="relative border-t border-b border-[var(--rule-hairline)] bg-[var(--ink-950)] py-[var(--space-6)]">
       <p
-        className="mx-auto mb-[var(--space-4)] max-w-[var(--container-wide)] px-[var(--grid-margin)] text-center font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)]"
+        className="mx-auto mb-[var(--space-4)] max-w-[var(--container-wide)] px-[var(--grid-margin)] text-center font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)]"
         id="partners-heading"
       >
         Partners in craft

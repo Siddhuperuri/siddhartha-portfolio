@@ -1,6 +1,5 @@
 type GradientHero01Props = {
   description?: string;
-  eyebrow?: string;
   primary?: { href: string; label: string };
   secondary?: { href: string; label: string };
   title?: string;
@@ -12,7 +11,6 @@ type GradientHero01Props = {
  */
 export function GradientHero01({
   description = "A place for the experiments that did not belong on a case study.",
-  eyebrow = "Playground",
   primary = { href: "/work", label: "See the work" },
   secondary = { href: "/contact", label: "Get in touch" },
   title = "Small experiments, built to be played with",
@@ -49,11 +47,7 @@ export function GradientHero01({
       />
 
       <div className="relative mx-auto flex min-h-[80svh] max-w-6xl flex-col items-center justify-center px-6 py-24 text-center lg:px-24">
-        <div className="border border-[var(--rule-default)] bg-[rgba(10,10,10,0.5)] px-4 py-1.5 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-300)] uppercase backdrop-blur-md">
-          {eyebrow}
-        </div>
-
-        <h1 className="mt-8 max-w-5xl font-[family-name:var(--font-display)] text-5xl leading-[0.96] font-normal tracking-[var(--tracking-display)] text-balance md:text-6xl lg:text-7xl">
+        <h1 className="max-w-5xl font-[family-name:var(--font-display)] text-5xl leading-[0.96] font-normal tracking-[var(--tracking-display)] text-balance md:text-6xl lg:text-7xl">
           {title}
         </h1>
 

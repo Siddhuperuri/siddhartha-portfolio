@@ -24,9 +24,9 @@ const ROW = "border-t border-[rgba(10,10,10,0.16)] md:grid md:grid-cols-[minmax(
 const LABEL =
   "block pt-[var(--space-5)] font-[family-name:var(--font-sans)] text-[15px] leading-[1.3] text-[var(--ink-950)] md:pb-[var(--space-5)]";
 const FIELD =
-  "w-full bg-transparent pb-[var(--space-5)] pt-[var(--space-2)] font-[family-name:var(--font-sans)] text-[15px] leading-[1.4] text-[var(--ink-950)] outline-none placeholder:text-[rgba(10,10,10,0.34)] focus-visible:ring-0 md:pt-[var(--space-5)]";
+  "w-full bg-transparent pb-[var(--space-5)] pt-[var(--space-2)] font-[family-name:var(--font-sans)] text-[15px] leading-[1.4] text-[var(--ink-950)] outline-none placeholder:text-[rgba(10,10,10,0.82)] focus-visible:ring-0 md:pt-[var(--space-5)]";
 const ERROR =
-  "block pb-[var(--space-4)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--red-600)]";
+  "block pb-[var(--space-4)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--red-600)]";
 
 /**
  * Composes the answers into a message body. The site has no mail backend, so
@@ -56,7 +56,7 @@ function SelectChevron() {
   return (
     <svg
       aria-hidden
-      className="pointer-events-none absolute right-0 top-1/2 size-4 -translate-y-1/2 text-[rgba(10,10,10,0.55)]"
+      className="pointer-events-none absolute right-0 top-1/2 size-4 -translate-y-1/2 text-[rgba(10,10,10,0.82)]"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
@@ -114,7 +114,7 @@ export function ContactForm() {
 
       <div className={ROW}>
         <label className={LABEL} htmlFor="contact-company">
-          Company <span className="text-[rgba(10,10,10,0.4)]">(optional)</span>
+          Company <span className="text-[rgba(10,10,10,0.82)]">(optional)</span>
         </label>
         <input
           autoComplete="organization"
@@ -176,7 +176,7 @@ export function ContactForm() {
 
       <div className={ROW}>
         <label className={LABEL} htmlFor="contact-timeline">
-          Timeline <span className="text-[rgba(10,10,10,0.4)]">(rough dates are fine)</span>
+          Timeline <span className="text-[rgba(10,10,10,0.82)]">(rough dates are fine)</span>
         </label>
         <input className={FIELD} id="contact-timeline" type="text" {...register("timeline")} />
       </div>
@@ -199,7 +199,7 @@ export function ContactForm() {
 
       <div className="flex flex-wrap items-center justify-between gap-[var(--space-6)] border-t border-[rgba(10,10,10,0.16)] pt-[var(--space-6)]">
         <div>
-          <label className="flex items-center gap-[var(--space-3)] font-[family-name:var(--font-sans)] text-[13px] text-[rgba(10,10,10,0.72)]">
+          <label className="flex items-center gap-[var(--space-3)] font-[family-name:var(--font-sans)] text-[13px] text-[rgba(10,10,10,0.82)]">
             <input
               aria-invalid={Boolean(errors.consent)}
               className="size-4 shrink-0 accent-[var(--red-500)]"
@@ -228,7 +228,7 @@ export function ContactForm() {
 
       <p
         aria-live="polite"
-        className="pt-[var(--space-5)] font-[family-name:var(--font-mono)] text-[10px] uppercase leading-[1.8] tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.52)]"
+        className="pt-[var(--space-5)] font-[family-name:var(--font-mono)] text-[11px] uppercase leading-[1.8] tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)]"
       >
         {handedOff
           ? "Your mail client should have opened with the message ready to send."

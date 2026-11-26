@@ -32,7 +32,7 @@ export function ProjectStack({ projects }: ProjectStackProps) {
           <p className="mt-[var(--space-5)] max-w-[52ch] font-[family-name:var(--font-sans)] text-[17px] leading-[1.55] text-[var(--paper-200)]">
             {project.summary}
           </p>
-          <ul className="mt-[var(--space-8)] flex flex-wrap gap-[var(--space-2)] font-[family-name:var(--font-mono)] text-[10px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] uppercase">
+          <ul className="mt-[var(--space-8)] flex flex-wrap gap-[var(--space-2)] font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] uppercase">
             {project.tools.map((tool) => (
               <li
                 className="rounded-full border border-[var(--rule-default)] px-[var(--space-3)] py-[var(--space-1)]"

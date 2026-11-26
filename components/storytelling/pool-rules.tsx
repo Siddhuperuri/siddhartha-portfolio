@@ -85,7 +85,7 @@ export function PoolRules() {
             >
               <span
                 className={cn(
-                  "w-[3ch] shrink-0 text-[0.65em]",
+                  "w-[4ch] shrink-0 text-[0.65em]",
                   i <= litIndex ? "text-[var(--paper-300)]" : "text-[var(--paper-500)]",
                 )}
               >

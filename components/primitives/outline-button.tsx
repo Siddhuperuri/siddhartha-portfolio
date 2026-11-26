@@ -15,7 +15,7 @@ const base =
   "group inline-flex items-center gap-3 border font-[family-name:var(--font-mono)] uppercase tracking-[var(--tracking-eyebrow)] transition-colors duration-[var(--duration-base)] ease-[var(--ease-standard)]";
 
 const sizes: Record<Size, string> = {
-  sm: "h-8 px-3 text-[10px]",
+  sm: "h-8 px-3 text-[11px]",
   md: "h-10 px-4 text-[11px]",
   lg: "h-14 px-6 text-[13px]",
 };
