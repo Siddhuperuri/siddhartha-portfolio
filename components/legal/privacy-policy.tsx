@@ -43,12 +43,12 @@ export function PrivacyPolicy() {
         </div>
 
         <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] px-[var(--grid-margin)] pb-[var(--space-16)] pt-[var(--space-10)]">
-          <p className="col-span-12 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.5)] md:col-span-3">
+          <p className="col-span-12 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)] md:col-span-3">
             Effective {privacyEffectiveDate}
           </p>
           <p className="col-span-12 max-w-[42rem] font-[family-name:var(--font-sans)] text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] tracking-[var(--tracking-heading)] md:col-span-8 md:col-start-5">
             <span className="text-[var(--ink-950)]">{privacyIntro.emphasis}</span>{" "}
-            <span className="text-[rgba(10,10,10,0.62)]">{privacyIntro.rest}</span>
+            <span className="text-[rgba(10,10,10,0.82)]">{privacyIntro.rest}</span>
           </p>
         </div>
       </section>
@@ -76,7 +76,7 @@ export function PrivacyPolicy() {
                       className="grid grid-cols-12 gap-x-[var(--grid-gutter)] border-b border-[rgba(10,10,10,0.16)] py-[var(--space-6)]"
                       key={row.label}
                     >
-                      <dt className="col-span-12 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.5)] md:col-span-3">
+                      <dt className="col-span-12 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)] md:col-span-3">
                         {row.label}
                       </dt>
                       <dd className="col-span-12 mt-[var(--space-2)] max-w-[54ch] font-[family-name:var(--font-sans)] text-[15px] leading-[1.6] text-[rgba(10,10,10,0.82)] md:col-span-9 md:mt-0">
@@ -88,7 +88,7 @@ export function PrivacyPolicy() {
               </div>
             ))}
 
-            <p className="mt-[var(--space-10)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.55)]">
+            <p className="mt-[var(--space-10)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)]">
               Questions about this page can go to{" "}
               <Link
                 className="text-[var(--ink-950)] underline underline-offset-4"

@@ -56,7 +56,7 @@ export function PrivacySidebar() {
 
   return (
     <nav aria-label="Privacy policy sections" className="sticky top-[calc(var(--space-16)+var(--space-8))]">
-      <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.55)]">
+      <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)]">
         Navigate to
       </p>
       <ol className="mt-[var(--space-4)] space-y-[var(--space-2)]">
@@ -69,7 +69,7 @@ export function PrivacySidebar() {
                   "group flex items-center gap-[var(--space-3)] rounded-[var(--radius-md)] px-[var(--space-3)] py-[var(--space-2)] font-[family-name:var(--font-sans)] text-[13px] transition-colors duration-[var(--duration-base)]",
                   isActive
                     ? "bg-[var(--ink-950)] text-[var(--paper-100)]"
-                    : "text-[rgba(10,10,10,0.72)] hover:bg-[rgba(10,10,10,0.06)]",
+                    : "text-[rgba(10,10,10,0.82)] hover:bg-[rgba(10,10,10,0.06)]",
                 )}
                 href={`#${section.id}`}
               >
@@ -78,7 +78,7 @@ export function PrivacySidebar() {
                     "flex size-6 shrink-0 items-center justify-center rounded-full border transition-colors duration-[var(--duration-base)]",
                     isActive
                       ? "border-[var(--paper-100)] text-[var(--paper-100)]"
-                      : "border-[rgba(10,10,10,0.25)] text-[rgba(10,10,10,0.55)]",
+                      : "border-[rgba(10,10,10,0.25)] text-[rgba(10,10,10,0.82)]",
                   )}
                 >
                   <ArrowRight />

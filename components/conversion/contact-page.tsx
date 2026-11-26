@@ -83,11 +83,11 @@ export function ContactPage() {
 
         {/* Lede — eyebrow parked left, statement starting on column 5 */}
         <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] px-[var(--grid-margin)] pt-[var(--space-16)]">
-          <p className="col-span-12 flex items-center gap-[var(--space-2)] self-start font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.6)] md:col-span-4 md:pt-[var(--space-3)]">
+          <p className="col-span-12 flex items-center gap-[var(--space-2)] self-start font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)] md:col-span-4 md:pt-[var(--space-3)]">
             <span aria-hidden className="inline-block size-1.5 rounded-full bg-[var(--red-500)]" />
             Get in touch
           </p>
-          <p className="col-span-12 mt-[var(--space-6)] max-w-[26ch] font-[family-name:var(--font-sans)] text-[clamp(1.5rem,2.6vw,2.35rem)] font-medium leading-[1.16] tracking-[var(--tracking-heading)] text-[rgba(10,10,10,0.42)] md:col-span-8 md:mt-0 md:max-w-[24ch]">
+          <p className="col-span-12 mt-[var(--space-6)] max-w-[26ch] font-[family-name:var(--font-sans)] text-[clamp(1.5rem,2.6vw,2.35rem)] font-medium leading-[1.16] tracking-[var(--tracking-heading)] text-[rgba(10,10,10,0.82)] md:col-span-8 md:mt-0 md:max-w-[24ch]">
             Have a project in mind? I&rsquo;d love to hear more. Whether it&rsquo;s a full digital experience, design
             support, or a front-end build &mdash; let&rsquo;s connect.
           </p>
@@ -109,7 +109,7 @@ export function ContactPage() {
               >
                 FAQ
               </h2>
-              <p className="mt-[var(--space-5)] max-w-[26ch] font-[family-name:var(--font-sans)] text-[15px] leading-[1.5] text-[rgba(10,10,10,0.68)]">
+              <p className="mt-[var(--space-5)] max-w-[26ch] font-[family-name:var(--font-sans)] text-[15px] leading-[1.5] text-[rgba(10,10,10,0.82)]">
                 If your question isn&rsquo;t answered here, feel free to reach out to me above.
               </p>
 
@@ -117,13 +117,13 @@ export function ContactPage() {
                 {channels.map((channel) => (
                   <li key={channel.href}>
                     <a
-                      className="group flex flex-wrap items-baseline gap-x-[var(--space-3)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.72)] transition-colors hover:text-[var(--red-600)]"
+                      className="group flex flex-wrap items-baseline gap-x-[var(--space-3)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)] transition-colors hover:text-[var(--red-600)]"
                       href={channel.href}
                       rel={channel.external ? "noreferrer" : undefined}
                       target={channel.external ? "_blank" : undefined}
                     >
                       <span className="w-[4.5rem] shrink-0">{channel.label}</span>
-                      <span className="min-w-0 break-all text-[rgba(10,10,10,0.5)] transition-colors group-hover:text-[var(--red-600)]">
+                      <span className="min-w-0 break-all text-[rgba(10,10,10,0.82)] transition-colors group-hover:text-[var(--red-600)]">
                         {channel.detail}
                       </span>
                     </a>
@@ -147,13 +147,13 @@ export function ContactPage() {
                     {faq.question}
                     <PlusIcon />
                   </summary>
-                  <p className="max-w-[54ch] pb-[var(--space-6)] font-[family-name:var(--font-sans)] text-[15px] leading-[1.6] text-[rgba(10,10,10,0.68)]">
+                  <p className="max-w-[54ch] pb-[var(--space-6)] font-[family-name:var(--font-sans)] text-[15px] leading-[1.6] text-[rgba(10,10,10,0.82)]">
                     {faq.answer}
                   </p>
                 </details>
               ))}
 
-              <p className="mt-[var(--space-10)] font-[family-name:var(--font-mono)] text-[10px] uppercase leading-[1.8] tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.48)]">
+              <p className="mt-[var(--space-10)] font-[family-name:var(--font-mono)] text-[11px] uppercase leading-[1.8] tracking-[var(--tracking-eyebrow)] text-[rgba(10,10,10,0.82)]">
                 {profile.name} &middot; Vijayawada, India
               </p>
             </div>

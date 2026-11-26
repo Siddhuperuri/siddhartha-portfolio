@@ -56,7 +56,7 @@ export function WorkIndex({ projects }: WorkIndexProps) {
                   {project.title}
                 </h3>
 
-                <div className="col-span-12 mt-[var(--space-3)] flex items-baseline gap-[var(--space-3)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] md:col-span-4 md:mt-0 md:justify-end md:gap-[var(--space-4)]">
+                <div className="col-span-12 mt-[var(--space-3)] flex items-baseline gap-[var(--space-3)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] md:col-span-4 md:mt-0 md:justify-end md:gap-[var(--space-4)]">
                   <span className="whitespace-nowrap">{project.context}</span>
                   <svg
                     aria-hidden
@@ -87,7 +87,7 @@ export function WorkIndex({ projects }: WorkIndexProps) {
                     {project.summary}
                   </span>
                 </p>
-                <div className="col-span-12 mt-[var(--space-4)] flex flex-wrap items-baseline gap-x-[var(--space-4)] gap-y-[var(--space-2)] font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] md:col-span-8 md:col-start-2">
+                <div className="col-span-12 mt-[var(--space-4)] flex flex-wrap items-baseline gap-x-[var(--space-4)] gap-y-[var(--space-2)] font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--paper-400)] md:col-span-8 md:col-start-2">
                   {project.tools.length > 0
                     ? project.tools.map((tool) => <span key={tool}>{tool}</span>)
                     : project.roles.map((role) => <span key={role.label}>{role.value}</span>)}

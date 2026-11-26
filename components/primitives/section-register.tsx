@@ -12,6 +12,8 @@ type SectionRegisterProps = {
   className?: string;
   index: number;
   label: string;
+  /** Colour of the centred label; the default suits the dark pages. */
+  labelClassName?: string;
   total?: number;
 };
 
@@ -20,6 +22,7 @@ export function SectionRegister({
   className,
   index,
   label,
+  labelClassName = "text-[var(--paper-200)]",
   total = 9,
 }: SectionRegisterProps) {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -33,7 +36,7 @@ export function SectionRegister({
       <span className="text-left">
         [ {pad(index)} / {pad(total)} ]
       </span>
-      <span className="text-center text-[var(--paper-200)]">{label}</span>
+      <span className={cn("text-center", labelClassName)}>{label}</span>
       {action ? (
         <span className="flex justify-end">{action}</span>
       ) : (

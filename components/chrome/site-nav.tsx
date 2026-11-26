@@ -57,7 +57,7 @@ export function SiteNav() {
                   <Link
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative flex h-14 flex-col items-center justify-center gap-1 rounded-xl font-[family-name:var(--font-mono)] text-[9px] tracking-[0.04em] uppercase transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none",
+                      "relative flex h-14 flex-col items-center justify-center gap-1 rounded-xl font-[family-name:var(--font-mono)] text-[11px] tracking-[0.04em] uppercase transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none",
                       focusRing,
                       active
                         ? "bg-white/[0.09] text-[var(--paper-100)]"
@@ -93,7 +93,7 @@ export function SiteNav() {
                 <Link
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg px-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[var(--tracking-eyebrow)] uppercase",
+                    "relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg px-1 font-[family-name:var(--font-mono)] text-[11px] tracking-[var(--tracking-eyebrow)] uppercase",
                     focusRing,
                     active ? "text-[var(--paper-100)]" : "text-[var(--paper-400)]",
                   )}

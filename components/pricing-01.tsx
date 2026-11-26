@@ -101,7 +101,7 @@ export function Pricing01() {
                   </div>
 
                   {plan.highlighted && (
-                    <span className="rounded-full bg-foreground px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-background shadow-[0_1px_1px_rgba(0,0,0,0.1),0_8px_20px_-12px_rgba(0,0,0,0.45)]">
+                    <span className="rounded-full bg-foreground px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-background shadow-[0_1px_1px_rgba(0,0,0,0.1),0_8px_20px_-12px_rgba(0,0,0,0.45)]">
                       Popular
                     </span>
                   )}

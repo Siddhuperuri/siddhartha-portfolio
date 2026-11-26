@@ -44,7 +44,7 @@ export function ContactConversion() {
         className="relative bg-[var(--red-500)] pb-[var(--space-section)] text-[var(--ink-950)]"
         id="faq"
       >
-        <SectionRegister className="text-[rgba(0,0,0,0.7)]" index={9} label="FAQ" />
+        <SectionRegister className="text-[rgba(0,0,0,0.82)]" index={9} label="FAQ" labelClassName="text-[rgba(0,0,0,0.82)]" />
 
         <div className="mx-auto grid max-w-[var(--container-wide)] grid-cols-12 gap-x-[var(--grid-gutter)] gap-y-[var(--space-16)] px-[var(--grid-margin)] pt-[calc(var(--space-section)*0.75)]">
           <h2
@@ -60,7 +60,7 @@ export function ContactConversion() {
           <div className="col-span-12 grid grid-cols-1 gap-x-[var(--grid-gutter)] gap-y-[var(--space-12)] md:col-span-8 md:grid-cols-2">
             {faqs.map((faq) => (
               <div className="flex flex-col" key={faq.number}>
-                <span className="inline-flex w-fit items-center bg-[var(--ink-950)] px-2 py-1 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--red-500)]">
+                <span className="inline-flex w-fit items-center bg-[var(--ink-950)] px-2 py-1 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[var(--tracking-eyebrow)] text-[var(--red-500)]">
                   {faq.number}
                 </span>
                 <h3 className="mt-[var(--space-6)] font-[family-name:var(--font-display)] text-[length:var(--text-2xl)] font-normal leading-[1.1] tracking-[var(--tracking-heading)] md:text-[length:var(--text-3xl)]">
